@@ -4,6 +4,11 @@ import { toast } from 'react-toastify';
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
+
+    const [appointment, setAppointment] = useState(() => {
+        const savedAppointment = localStorage.getItem('appointment');
+        return savedAppointment ? JSON.parse(savedAppointment) : null;
+    });
     const url = "http://localhost:4000";
     const [token, setToken] = useState(""); 
     const [cart, setCart] = useState(() => {
@@ -43,7 +48,17 @@ const StoreContextProvider = (props) => {
         });
     };
     
-    
+    // When booking an appointment, set the appointment details
+    const bookAppointment = (appointmentData) => {
+        setAppointment(appointmentData);
+        localStorage.setItem('appointment', JSON.stringify(appointmentData));
+    };
+  
+    // Remove appointment on cart clear or other actions
+    const removeAppointment = () => {
+        setAppointment(null);
+        localStorage.removeItem('appointment');
+    };
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -58,6 +73,9 @@ const StoreContextProvider = (props) => {
         cart,
         addToCart,
         removeFromCart,
+        appointment,
+        bookAppointment,
+        removeAppointment,
     };
 
     return (

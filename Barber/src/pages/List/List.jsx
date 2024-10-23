@@ -51,7 +51,7 @@ const List = () => {
               <p>{item.name}</p>
               <p>{item.description}</p>
               <p>{item.category}</p>
-              <p>${item.price}</p>
+              <p>&#8377; {item.price}</p>
               <p onClick={() => removeService(item._id)} className='cursor'>x</p>
             </div>
           )

@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js"
 import userRouter from './routes/userRoute.js'
 import 'dotenv/config'
 import serviceRouter from "./routes/serviceRoute.js"
+import appointmentRouter from "./routes/appointmentRoute.js"
 
 
 // app config
@@ -22,6 +23,7 @@ connectDB();
 app.use('/api/user', userRouter)
 app.use('/api/service', serviceRouter)
 app.use('/images', express.static('uploads'))
+app.use('/api/appoint', appointmentRouter)
 
 app.get("/", (req, res) => {
     res.send("API Working")

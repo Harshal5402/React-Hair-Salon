@@ -84,7 +84,7 @@ const Explore = () => {
                             <p>{item.name}</p>
                             <p>{item.description}</p>
                             <p>{item.category}</p>
-                            <p>${item.price}</p>
+                            <p>&#8377; {item.price}</p>
                             <button onClick={() => handleAddToCart(item)}>Add</button>
                         </div>
                     ))}

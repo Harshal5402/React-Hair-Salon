@@ -7,7 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import Explore from './Pages/Explore/Explore';
 import Cart from './Pages/Cart/Cart';
-import Appointment from './Pages/Appointment/Appointment';
+import Appointment from './Pages/Appointments/Appointments';
 
 
 const App = () => {
