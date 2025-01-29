@@ -1,3 +1,8 @@
+.appointment h2 {
+  text-align: center;
+  color: #009688;
+}
+
 form {
     max-width: 500px;
     margin: 0 auto;

@@ -1,10 +1,14 @@
 .login-popup{
-    position: absolute;
-    z-index: 1;
+    /* position: absolute; */
+    position: fixed;
+    z-index: 1000;
     width: 100%;
     height: 100%;
     background-color: #00000090;
-    display: grid;
+    /* display: grid; */
+    display: flex;
+    align-items: center;
+    justify-content: center; 
 }
 
 .login-popup-container{
@@ -14,7 +18,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 10px;
     padding: 25px 30px;
     border-radius: 8px;
     font-size: 14px;
@@ -26,6 +30,11 @@
     justify-content: space-between;
     align-items: center;
     color: black;
+    margin-bottom: 10px;
+}
+
+.login-popup-title h2{
+    font-size: 20px;
 }
 
 .login-popup-title img{
@@ -36,7 +45,7 @@
 .login-popup-inputs{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
 }
 
 .login-popup-inputs input{
@@ -44,9 +53,11 @@
     border: 1px solid #c9c9c9;
     padding: 10px;
     border-radius: 4px;
+    margin-bottom: 10px;
 }
 
-.login-popup-container button{
+.login-popup-container button[type = 'submit']{
+    margin-top: 0;
     border: none;
     padding: 10px;
     border-radius: 4px;
@@ -58,13 +69,16 @@
 
 .login-popup-condition{
     display: flex;
-    align-items: start;
-    gap: 8px;
-    margin-top: -15px;
+    align-items: center;
+    /* align-items: start; */
+    gap: 4px;
+    /* margin-top: 10px; */
 }
 
 .login-popup-condition input{
     margin-top: 5px;
+    width: 16px;
+    height: 16px;   
 }
 
 .login-popup p span{

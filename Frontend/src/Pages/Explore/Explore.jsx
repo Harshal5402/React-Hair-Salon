@@ -5,7 +5,7 @@ import { StoreContext } from '../../Context/StoreContext';
 import { toast } from 'react-toastify';
 
 const Explore = () => {
-    const { url, addToCart } = useContext(StoreContext);
+    const { url,  } = useContext(StoreContext);
     const [allServices, setAllServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
     const [categories] = useState([
@@ -38,9 +38,39 @@ const Explore = () => {
         }
     };
 
-    const handleAddToCart = (item) => {
-        addToCart(item);
+    const handleAddToCart = async (item) => {
+        // Ensure the user is logged in by checking the token in local storage
+        const token = localStorage.getItem('token'); // Assuming token is stored in local storage
+        if (!token) {
+            toast.error('Please login to add items to the cart');
+            return;
+        }
+    
+        try {
+            // Make the API request to add the service to the cart
+            const response = await axios.post(`${url}/api/cart/add`, 
+                { serviceId: item._id }, // Only send serviceId
+                { headers: { Authorization: `Bearer ${token}` } } // Pass token in headers                
+            );
+            console.log(item._id);
+            console.log(response);
+            
+
+    
+            // Handle the response
+            if (response.data.success) {
+                toast.success('Service added to cart');
+                // handleAddToCart(item); // Update local cart context if needed
+            } else {
+                toast.error(response.data.message || 'Failed to add service to cart');
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('Error adding service to cart');
+        }
     };
+    
+    
 
     useEffect(() => {
         fetchService();
