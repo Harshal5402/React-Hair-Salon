@@ -1,0 +1,39 @@
+.fetch-details {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fetch-info {
+    position: relative; /* Necessary for absolute positioning of child */
+    padding-right: 30px;
+    /* border: 1px solid grey; */
+    padding: 2%;
+    background-color: #f9f9f9;
+}
+
+.fetch-info p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.fetch-info strong {
+    color: #333;
+}
+
+.remove-appointment {
+    color: red;
+    font-size: large;
+    cursor: pointer;
+    position: absolute;
+    right: 70px;
+    top: 40%;
+    transform: translateY(-50%);
+}
+
+.remove-appointment:hover {
+    color: darkred;
+}

@@ -7,7 +7,8 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import Explore from './Pages/Explore/Explore';
 import Cart from './Pages/Cart/Cart';
-import Appointment from './Pages/Appointments/Appointments';
+import Appointments from './Pages/Appointments/Appointments'
+import FetchAppointment from './Pages/FetchAppointment/FetchAppointment'
 
 
 const App = () => {
@@ -24,7 +25,8 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='explore' element={<Explore />} />
         <Route path='cart' element={<Cart />} />
-        <Route path='appointments' element={<Appointment />} />
+        <Route path='appointments' element={<Appointments />} />
+        <Route path='fetchAppointment' element={<FetchAppointment />} />
       </Routes>
     </div>
     </>

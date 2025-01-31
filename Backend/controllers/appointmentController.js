@@ -15,29 +15,6 @@ const appointAvailable = async (req, res) => {
 }
 
 // Book appointment
-// const appointmentBook = async (req, res) => {
-//     const { name, surname, email, mobile, address, date, time } = req.body;
-
-//      // Check if the time slot is already booked
-//     const existingAppointment = await Appointment.findOne({ date, time });
-//      if (existingAppointment) {
-//         return res.json({
-//             success: false,
-//             message: "Time slot is already booked" 
-//         });
-//     }
-
-//     const appointment = new Appointment({ name, surname, email, mobile, address, date, time });
-//     await appointment.save();
-  
-//     res.json({
-//         success: true,
-//         message: "Appointment booked successfully" 
-//     });
-// }
-
-
-// Book appointment
 const appointmentBook = async (req, res) => {
     console.log("Appointment API Called");  // Debugging Step 1
     console.log("Request Body:", req.body);  // Debugging Step 2
@@ -95,5 +72,37 @@ const appointmentBook = async (req, res) => {
     }
 };
 
+// Fetch the current user's appointment
+const fetchAppointment = async(req, res) => {
+    try {
+        const userId = req.userId;
 
-export {appointAvailable, appointmentBook}
+        const appointment = await Appointment.findOne({ userId });
+
+        if (!appointment) {
+            return res.status(404).json({ success: false, message: "No appointment found"});
+        }
+
+        res.json({ success: true, data: appointment});
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error fetching appointment", error: error.message});
+    }
+};
+
+// Remove Appointment
+const appointmentRemove = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const deletedAppointment = await Appointment.findOneAndDelete({userId});
+
+        if (!deletedAppointment) {
+            return res.status(404).json({ success: false, message: "No appointment found"});
+        }
+
+        res.json({ success: true, message: "Appointment removed successfully"});
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error removing appointment", error: error.message});
+    }
+};
+
+export {appointAvailable, appointmentBook, appointmentRemove, fetchAppointment};

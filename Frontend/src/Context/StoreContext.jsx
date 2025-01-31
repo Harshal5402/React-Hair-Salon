@@ -5,10 +5,12 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
 
-    const [appointment, setAppointment] = useState(() => {
-        const savedAppointment = localStorage.getItem('appointment');
-        return savedAppointment ? JSON.parse(savedAppointment) : null;
-    });
+    // const [appointment, setAppointment] = useState(() => {
+    //     const savedAppointment = localStorage.getItem('appointment');
+    //     return savedAppointment ? JSON.parse(savedAppointment) : null;
+    // });
+
+    const [appointment, setAppointment] = useState(null);
     const url = "http://localhost:4000";
     const [token, setToken] = useState(""); 
 
@@ -18,6 +20,11 @@ const StoreContextProvider = (props) => {
     const bookAppointment = (appointmentData) => {
         setAppointment(appointmentData);
     };
+
+    // fetch appointment on cart
+    const getAppointment = (appointmentData) => {
+        setAppointment(appointmentData);
+    }
   
     // Remove appointment on cart clear or other actions
     const removeAppointment = () => {
@@ -29,7 +36,7 @@ const StoreContextProvider = (props) => {
         if (storedToken) {
             setToken(storedToken);
         }
-        console.log(storedToken); // Check if token is being set correctly
+        console.log("Stored Token:", storedToken); 
     }, []);
     
     const contextValue = {
@@ -39,6 +46,7 @@ const StoreContextProvider = (props) => {
         appointment,
         bookAppointment,
         removeAppointment,
+        getAppointment,
     };
 
     return (

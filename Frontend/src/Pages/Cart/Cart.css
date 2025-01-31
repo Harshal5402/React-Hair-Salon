@@ -69,6 +69,10 @@ h2 {
     cursor: pointer;
 }
 
+.cursor:hover {
+    color: darkred;
+}
+
 .cart-bottom{
     /* margin-top: 20px; */
     display: flex;
@@ -127,6 +131,11 @@ h2 {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+.appointment-info {
+    position: relative; /* Necessary for absolute positioning of child */
+    padding-right: 30px;
+}
+
 .appointment-info p {
     font-size: 14px;
     color: #555;
@@ -136,6 +145,21 @@ h2 {
 .appointment-info strong {
     color: #333;
 }
+
+.remove-appointment {
+    color: red;
+    font-size: large;
+    cursor: pointer;
+    position: absolute;
+    right: 70px;
+    top: 40%;
+    transform: translateY(-50%);
+}
+
+.remove-appointment:hover {
+    color: darkred;
+}
+
 
 @media (max-width: 750px) {
     .cart-bottom{

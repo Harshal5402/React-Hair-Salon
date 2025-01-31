@@ -7,10 +7,18 @@ import axios from 'axios';
 
 
 const Cart = () => {
-  const { url, token, appointment } = useContext(StoreContext);
+  const { url, token, appointment, removeAppointment, getAppointment } = useContext(StoreContext);
   const navigate = useNavigate()
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+
+   // Force refresh the cart when the page is accessed
+   const refreshCartData = () => {
+    setCartItems([]); // Clear current cart items
+    setTotalPrice(0); // Reset the total price
+    fetchCartItems(); // Fetch new cart items
+    fetchAppointment(); // Fetch new appointment details
+  };
 
   // Remove item from cart
   const handleRemoveFromCart = async (item) => {
@@ -56,23 +64,76 @@ const Cart = () => {
     } catch (error) {
         toast.error('Failed to fetch cart items');
     }
-};
+  };
 
-// Calculate total price
-const calculateTotalPrice = () => {
-  const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-  setTotalPrice(subtotal);
-};
+  // Fetch appointment details
+  const fetchAppointment = async () => {
+    if (!token) {
+      toast.error("Please login to view your appointment");
+      return;
+    }
 
-useEffect(() => {
-  if (token) {
-    fetchCartItems();
-  }
-}, [token]);
+    try {
+      const response = await axios.get(`${url}/api/appoint/appointment`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    
 
-useEffect(() => {
-  calculateTotalPrice();
-}, [cartItems]);
+      if (response.data.success) {
+        getAppointment(response.data.data);
+      } else {
+        toast.error("Error fetching appointment");
+      }
+    } catch (error) {
+      toast.error("Failed to fetch appointment");
+    }
+  };
+
+  // Remove Appointment
+  const handleRemoveAppointment = async () => {
+    try {
+      const response = await axios.delete(`${url}/api/appoint/appointmentRemove`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.data.success) {
+        toast.success("Appointment removed successfully!");
+        // Appointment stae ko null kar dena
+        removeAppointment(null);
+      } else {
+        toast.error("Failed to remove appointment");
+      }
+    } catch (error) {
+      toast.error("Error removing appointment");
+    }
+  };
+
+  // Calculate total price
+  const calculateTotalPrice = () => {
+    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+    setTotalPrice(subtotal);
+  };
+
+  
+  useEffect(() => {
+    if (token) {
+      fetchCartItems();
+      fetchAppointment();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    console.log("Updated Appointment State:", appointment);
+  }, [appointment]);
+
+
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [cartItems]);
 
   return (
     <div className='cart'>
@@ -115,6 +176,7 @@ useEffect(() => {
               <p><strong>Address:</strong> {appointment.address}</p>
               <p><strong>Date:</strong> {appointment.date}</p>
               <p><strong>Time:</strong> {appointment.time}</p>
+              <span className='remove-appointment' onClick={handleRemoveAppointment}>x</span>
             </div>
           ) : (
           <p>No appointment booked.</p>

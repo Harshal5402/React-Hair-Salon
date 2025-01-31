@@ -67,7 +67,7 @@ const Navbar = ({ setShowLogin }) => {
             <hr />
             <li><p onClick={() => {navigate('cart')}}>Cart</p></li>
             <hr />
-            <li><p onClick={() => {navigate('appointments')}}>Appointments</p></li>
+            <li><p onClick={() => {navigate('fetchAppointment')}}>Appointments</p></li>
             <hr />
             <li onClick={logout}>{/*<img src={assets.logout_icon} alt="" />*/}<p>Logout</p></li>
           </ul>
