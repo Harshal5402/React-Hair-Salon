@@ -70,11 +70,12 @@ const Cart = () => {
   const fetchAppointment = async () => {
     if (!token) {
       toast.error("Please login to view your appointment");
+      getAppointment(null); // Reset appointment state
       return;
     }
 
     try {
-      const response = await axios.get(`${url}/api/appoint/appointment`, {
+      const response = await axios.get(`${url}/api/appoint/getAppointment`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -84,10 +85,12 @@ const Cart = () => {
       if (response.data.success) {
         getAppointment(response.data.data);
       } else {
-        toast.error("Error fetching appointment");
+        toast.error("No appointment found");
+        getAppointment(null); // Reset appointment if not found
       }
     } catch (error) {
       toast.error("Failed to fetch appointment");
+      getAppointment(null); // Reset appointment on error
     }
   };
 

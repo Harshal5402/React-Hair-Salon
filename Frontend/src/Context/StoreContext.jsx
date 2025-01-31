@@ -21,7 +21,7 @@ const StoreContextProvider = (props) => {
         setAppointment(appointmentData);
     };
 
-    // fetch appointment on cart
+    // For fetching one appointment on cart
     const getAppointment = (appointmentData) => {
         setAppointment(appointmentData);
     }
@@ -30,6 +30,11 @@ const StoreContextProvider = (props) => {
     const removeAppointment = () => {
         setAppointment(null);
     };
+
+    // // For fetching all the apppointments
+    // const FetchAppointment = (appointmentData) => {
+    //     setAppointment(appointmentData)
+    // }
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
@@ -47,6 +52,7 @@ const StoreContextProvider = (props) => {
         bookAppointment,
         removeAppointment,
         getAppointment,
+        // FetchAppointment,
     };
 
     return (

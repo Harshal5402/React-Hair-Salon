@@ -73,9 +73,10 @@ const appointmentBook = async (req, res) => {
 };
 
 // Fetch the current user's appointment
-const fetchAppointment = async(req, res) => {
+const getAppointment = async(req, res) => {
     try {
         const userId = req.userId;
+        console.log("User ID from Token:", userId);
 
         const appointment = await Appointment.findOne({ userId });
 
@@ -105,4 +106,22 @@ const appointmentRemove = async (req, res) => {
     }
 };
 
-export {appointAvailable, appointmentBook, appointmentRemove, fetchAppointment};
+// For fetching all appointments
+const FetchAppointment = async(req, res) => {
+    try {
+        const userId = req.userId;
+        console.log("User ID from Token:", userId);
+
+        const appointment = await Appointment.find({ userId });
+
+        if (!appointment || appointment.length === 0) {
+            return res.status(404).json({ success: false, message: "No appointment found"});
+        }
+
+        res.json({ success: true, data: appointment});
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error fetching appointment", error: error.message});
+    }
+};
+
+export {appointAvailable, appointmentBook, appointmentRemove, getAppointment, FetchAppointment};
