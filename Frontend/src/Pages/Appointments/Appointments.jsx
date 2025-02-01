@@ -10,7 +10,7 @@ const Appointment = () => {
   const { url, token, bookAppointment } = useContext(StoreContext);
   console.log("Token from StoreContext:", token); // Token check
   const [availableTimes, setAvailableTimes] = useState([]);
-  const [hoveredButton, setHoveredButton] = useState(null);
+  const [selectedTime, setSelectedTime] = useState(null); // Track selected button
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -85,8 +85,6 @@ const Appointment = () => {
       toast.error("Server error. Please try again.");
     }
   };
-
-  const [selectedTime, setSelectedTime] = useState(null); // Track selected button
 
   const handleTimeSelect = (time) => {
     setSelectedTime(time);
@@ -194,28 +192,6 @@ const Appointment = () => {
           {availableTimes.length > 0 ? (
             <div>
               {availableTimes.map((time) => (
-                // <button
-                //   key={time.slot}
-                //   type="button"
-                //   style={{
-                //     backgroundColor: time.available ? "#8FBC8F" : "#E9967A",
-                //     color: "white",
-                //     marginRight: "10px",
-                //     marginBottom: "10px",
-                //     border:
-                //       hoveredButton === time.slot
-                //         ? "2px solid #006400"
-                //         : "none", // Red border on hover
-                //     transition: "border 0.3s", // Smooth transition for border
-                //   }}
-                //   disabled={!time.available}
-                //   onClick={() => setFormData({ ...formData, time: time.slot })}
-                //   onMouseEnter={() => setHoveredButton(time.slot)} // Set hover state
-                //   onMouseLeave={() => setHoveredButton(null)} // Reset hover state
-                // >
-                //   {time.slot}
-                // </button>
-
                 <button
                   key={time.slot}
                   type="button"
