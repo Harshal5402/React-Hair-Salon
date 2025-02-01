@@ -1,4 +1,4 @@
-import React, { Profiler, useContext, useState } from "react";
+import React, { Profiler, useContext, useState, useEffect } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ const Navbar = ({ setShowLogin }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [menu, setmenu] = useState("");
   const { token, setToken } = useContext(StoreContext);
+  const [showDropdown, setShowDropdown] = useState(false); // Dropdown ke liye state
 
   const navigate = useNavigate();
 
@@ -17,6 +18,25 @@ const Navbar = ({ setShowLogin }) => {
     setToken("");
     navigate("/");
   };
+
+  // Dropdown ko close karne ke liye click event listener
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest(".navbar-profile")) {
+        setShowDropdown(false);
+      }
+    };
+
+    if (showDropdown) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showDropdown]);
 
   return (
     <div className="navbar">
@@ -75,27 +95,31 @@ const Navbar = ({ setShowLogin }) => {
       {!token ? (
         <button onClick={() => setShowLogin(true)}>Sign In</button>
       ) : (
-        <div className="navbar-profile">
+        <div
+          className="navbar-profile"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
           <img src={assets.profile_icon} alt="" />
-          <ul className="nav-profile-dropdown">
-            <li>
-              <p
-                onClick={() => {
-                  navigate("profile");
-                }}
-              >
-                Profile
-              </p>
-            </li>
+          {showDropdown ? (
+            <ul className="nav-profile-dropdown">
+              <li>
+                <p
+                  onClick={() => {
+                    navigate("Account");
+                  }}
+                >
+                  Account
+                </p>
+              </li>
 
-            <hr />
-                  
+              <hr />
 
-            <li onClick={logout}>
-              {/* <img src={assets.logout_icon} alt="" /> */}
-              <p>Logout</p>
-            </li>
-          </ul>
+              <li onClick={logout}>
+                {/* <img src={assets.logout_icon} alt="" /> */}
+                <p>Logout</p>
+              </li>
+            </ul>
+          ) : null}
         </div>
       )}
 
@@ -123,21 +147,57 @@ const Navbar = ({ setShowLogin }) => {
         </div>
 
         <div className="sidebar-menu-content">
-          <NavLink to="/" onClick={() => setShowSidebar(false)}>
+          <NavLink
+            to="Account"
+            onClick={() => setShowSidebar(false)}
+            className={menu === "Account" ? "active" : ""}
+          >
+            Account
+          </NavLink>
+
+          <NavLink
+            to="/"
+            onClick={() => setShowSidebar(false)}
+            className={menu === "Home" ? "active" : ""}
+          >
             Home
           </NavLink>
-          <NavLink to="Explore" onClick={() => setShowSidebar(false)}>
+
+          <NavLink
+            to="Explore"
+            onClick={() => setShowSidebar(false)}
+            className={menu === "Explore" ? "active" : ""}
+          >
             Explore
           </NavLink>
-          <NavLink to="Cart" onClick={() => setShowSidebar(false)}>
+
+          <NavLink
+            to="Cart"
+            onClick={() => setShowSidebar(false)}
+            className={menu === "Cart" ? "active" : ""}
+          >
             Cart
           </NavLink>
-          <NavLink to="fetchAppointment" onClick={() => setShowSidebar(false)}>
+
+          <NavLink
+            to="fetchAppointment"
+            onClick={() => setShowSidebar(false)}
+            className={menu === "fetchAppointment" ? "active" : ""}
+          >
             Appointments
           </NavLink>
-          <NavLink to="#footer" onClick={() => setShowSidebar(false)}>
+
+          <NavLink
+            to="#footer"
+            onClick={() => setShowSidebar(false)}
+            className={menu === "Contact-Us" ? "active" : ""}
+          >
             Contact Us
           </NavLink>
+          
+          <p className="sidebar-logout" onClick={logout}>
+            Logout
+          </p>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ import img_one from './img_one.jpg'
 import img_two from './img_two.jpg'
 import img_three from './img_three.jpg'
 import footer_img from './footer_img.png'
-import menu_icon from './menu_icon.svg'
+import menu_icon from './menu_icon.png'
 
 
 
