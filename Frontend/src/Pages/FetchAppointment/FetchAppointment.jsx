@@ -28,7 +28,7 @@ const FetchAppointment = () => {
       if (response.data.success) {
         setAppointments(response.data.data);
       } else {
-        toast.error("Error fetching appointment");
+        toast.error("No appointment found");
         setAppointments([]);
       }
     } catch (error) {

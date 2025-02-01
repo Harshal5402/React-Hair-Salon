@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const Appointment = () => {
   const navigate = useNavigate();
   const { url, token, bookAppointment } = useContext(StoreContext);
-  console.log("Token from StoreContext:", token);  // Token check
+  console.log("Token from StoreContext:", token); // Token check
   const [availableTimes, setAvailableTimes] = useState([]);
   const [hoveredButton, setHoveredButton] = useState(null);
   const [formData, setFormData] = useState({
@@ -29,7 +29,7 @@ const Appointment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Token on Submit:", token);  // Token verify karna
+    console.log("Token on Submit:", token); // Token verify karna
 
     // Validation
     if (
@@ -50,13 +50,17 @@ const Appointment = () => {
     }
 
     try {
-      const response = await axios.post(`${url}/api/appoint/appointmentBook`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${url}/api/appoint/appointmentBook`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      console.log("Appointment Response:", response.data);  // Response check
+      console.log("Appointment Response:", response.data); // Response check
 
       if (response.data.success) {
         toast.success(response.data.message);
@@ -72,7 +76,7 @@ const Appointment = () => {
         }); // Reset form
 
         // Redirect to cart page
-        navigate("/cart")
+        navigate("/cart");
       } else {
         toast.error(response.data.message);
       }
@@ -82,19 +86,26 @@ const Appointment = () => {
     }
   };
 
+  const [selectedTime, setSelectedTime] = useState(null); // Track selected button
+
+  const handleTimeSelect = (time) => {
+    setSelectedTime(time);
+    setFormData({ ...formData, time: time });
+  };
+
   // Fetch available times for the selected date
   useEffect(() => {
     if (formData.date) {
+      console.log("Token on Date Change:", token); // Token check
 
-      console.log("Token on Date Change:", token);  // Token check
-
-      axios.get(`${url}/api/appoint/appointAvailable?date=${formData.date}`, {
+      axios
+        .get(`${url}/api/appoint/appointAvailable?date=${formData.date}`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the token here
           },
         })
         .then((response) => {
-          console.log("Available Times Response:", response.data);  // Available times response
+          console.log("Available Times Response:", response.data); // Available times response
           setAvailableTimes(response.data);
         })
         .catch((err) => {
@@ -103,7 +114,6 @@ const Appointment = () => {
         });
     }
   }, [formData.date, url, token]);
-  
 
   return (
     <div className="appointment">
@@ -184,6 +194,28 @@ const Appointment = () => {
           {availableTimes.length > 0 ? (
             <div>
               {availableTimes.map((time) => (
+                // <button
+                //   key={time.slot}
+                //   type="button"
+                //   style={{
+                //     backgroundColor: time.available ? "#8FBC8F" : "#E9967A",
+                //     color: "white",
+                //     marginRight: "10px",
+                //     marginBottom: "10px",
+                //     border:
+                //       hoveredButton === time.slot
+                //         ? "2px solid #006400"
+                //         : "none", // Red border on hover
+                //     transition: "border 0.3s", // Smooth transition for border
+                //   }}
+                //   disabled={!time.available}
+                //   onClick={() => setFormData({ ...formData, time: time.slot })}
+                //   onMouseEnter={() => setHoveredButton(time.slot)} // Set hover state
+                //   onMouseLeave={() => setHoveredButton(null)} // Reset hover state
+                // >
+                //   {time.slot}
+                // </button>
+
                 <button
                   key={time.slot}
                   type="button"
@@ -192,13 +224,12 @@ const Appointment = () => {
                     color: "white",
                     marginRight: "10px",
                     marginBottom: "10px",
-                    border: hoveredButton === time.slot ? "2px solid #006400" : "none",  // Red border on hover
-                    transition: "border 0.3s",  // Smooth transition for border
+                    border:
+                      selectedTime === time.slot ? "2px solid #006400" : "none", // Red border for selected button
+                    transition: "border 0.3s",
                   }}
                   disabled={!time.available}
-                  onClick={() => setFormData({ ...formData, time: time.slot })}
-                  onMouseEnter={() => setHoveredButton(time.slot)} // Set hover state
-                  onMouseLeave={() => setHoveredButton(null)}  // Reset hover state
+                  onClick={() => handleTimeSelect(time.slot)}
                 >
                   {time.slot}
                 </button>

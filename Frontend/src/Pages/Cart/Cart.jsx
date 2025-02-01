@@ -81,7 +81,8 @@ const Cart = () => {
         },
       });
     
-
+        console.log(response);
+        
       if (response.data.success) {
         getAppointment(response.data.data);
       } else {

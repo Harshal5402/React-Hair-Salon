@@ -81,7 +81,7 @@ const getAppointment = async(req, res) => {
         const appointment = await Appointment.findOne({ userId });
 
         if (!appointment) {
-            return res.status(404).json({ success: false, message: "No appointment found"});
+            return res.json({ success: false, message: "No appointment found"});
         }
 
         res.json({ success: true, data: appointment});
@@ -115,7 +115,7 @@ const FetchAppointment = async(req, res) => {
         const appointment = await Appointment.find({ userId });
 
         if (!appointment || appointment.length === 0) {
-            return res.status(404).json({ success: false, message: "No appointment found"});
+            return res.json({ success: false, message: "No appointment found"});
         }
 
         res.json({ success: true, data: appointment});
