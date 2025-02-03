@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Cart.css';
 import { StoreContext } from '../../Context/StoreContext';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,14 +11,6 @@ const Cart = () => {
   const navigate = useNavigate()
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-
-   // Force refresh the cart when the page is accessed
-   const refreshCartData = () => {
-    setCartItems([]); // Clear current cart items
-    setTotalPrice(0); // Reset the total price
-    fetchCartItems(); // Fetch new cart items
-    fetchAppointment(); // Fetch new appointment details
-  };
 
   // Remove item from cart
   const handleRemoveFromCart = async (item) => {
@@ -116,6 +108,39 @@ const Cart = () => {
     }
   };
 
+  // Handle checkout button click
+  const handleCheckout = async () => {
+    try {
+      const response = await axios.post(
+        `${url}/api/checkout/create-payment`, 
+        { 
+          cartItems: cartItems.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            description: item.description,
+            category: item.category,
+            image: item.image
+          })),
+          totalPrice,
+          customerName: `${appointment.name} ${appointment.surname}`,
+          customerEmail: `${appointment.email}`,
+          customerAddress: `${appointment.address}`
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      if (response.data.success) {
+        window.location.href = response.data.sessionUrl; // Redirect to Stripe Checkout page
+      } else {
+        toast.error('Failed to create checkout session');
+      }
+    } catch (error) {
+      toast.error('Error initiating checkout');
+    }
+  };
+   
+
   // Calculate total price
   const calculateTotalPrice = () => {
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
@@ -211,7 +236,8 @@ const Cart = () => {
           </div>
 
           {appointment ? (
-            <button onClick={() => navigate('/payment')}
+            // <button onClick={() => navigate('/payment')}
+            <button onClick={handleCheckout}
             disabled = {cartItems.length === 0} // Disable if cart is empty
             >Proceed to Pay</button>
           ) : (

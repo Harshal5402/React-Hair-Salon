@@ -9,6 +9,7 @@ import Explore from './Pages/Explore/Explore';
 import Cart from './Pages/Cart/Cart';
 import Appointments from './Pages/Appointments/Appointments'
 import FetchAppointment from './Pages/FetchAppointment/FetchAppointment'
+import Payment from './Pages/Payment/Payment';
 
 
 const App = () => {
@@ -27,6 +28,9 @@ const App = () => {
         <Route path='cart' element={<Cart />} />
         <Route path='appointments' element={<Appointments />} />
         <Route path='fetchAppointment' element={<FetchAppointment />} />
+        <Route path='/payment-success' element={<Payment />} />
+        <Route path='/payment-cancelled' element={<Payment />} />
+
       </Routes>
     </div>
     </>
