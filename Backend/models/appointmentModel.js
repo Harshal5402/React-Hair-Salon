@@ -27,8 +27,14 @@ const appointmentSchema = new mongoose.Schema({
     required: true,
   },
   date:{
-    type: Date,
+    type: String, // Change date to string
     required: true,
+    set: (val) => {
+      // Ensure val is a valid Date object
+      const date = new Date(val);
+      // return date.toISOString().split("T")[0]; // Store only "YYYY-MM-DD"
+      return date.toLocaleDateString('en-GB'); // English format (DD/MM/YYYY)
+    },
   },
   time:{
     type: String,
