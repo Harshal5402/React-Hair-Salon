@@ -78,7 +78,7 @@ const getAppointment = async(req, res) => {
         const userId = req.userId;
         console.log("User ID from Token:", userId);
 
-        const appointment = await Appointment.findOne({ userId });
+        const appointment = await Appointment.findOne({ userId, isPaid: false }); // filter for unpaid
 
         if (!appointment) {
             return res.json({ success: false, message: "No appointment found"});
@@ -112,7 +112,7 @@ const FetchAppointment = async(req, res) => {
         const userId = req.userId;
         console.log("User ID from Token:", userId);
 
-        const appointment = await Appointment.find({ userId });
+        const appointment = await Appointment.find({ userId, isPaid: true }); // filter for paid
 
         if (!appointment || appointment.length === 0) {
             return res.json({ success: false, message: "No appointment found"});

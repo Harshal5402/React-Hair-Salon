@@ -68,7 +68,7 @@ const FetchAppointment = () => {
 
   return (
     <div className="fetch-details">
-      <h2>Appointment Details</h2>
+      <h2>All Appointments</h2>
       {appointments.length > 0 ? (
         appointments.map((appointment) => (
           <div key={appointment._id} className="fetch-info">

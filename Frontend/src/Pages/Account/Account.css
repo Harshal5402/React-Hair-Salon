@@ -1,0 +1,15 @@
+/* Account.css */
+.account-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  button {
+    margin-top: 10px;
+  }
+  

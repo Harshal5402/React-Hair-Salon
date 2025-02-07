@@ -40,6 +40,10 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isPaid:{
+    type: Boolean,
+    default: false,
+  }
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
