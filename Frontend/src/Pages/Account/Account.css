@@ -1,15 +1,154 @@
-/* Account.css */
-.account-container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 2% 0 0 4%;
+}
+
+.profile-image {
+  width: 9rem;
+  border-radius: 0.5rem;
+}
+
+.profile-name {
+  font-size: 1.875rem;
+  font-weight: 500;
+  color: #2d2d2d;
+  margin-top: 1rem;
+}
+
+.edit-name-input {
+  background-color: #f3f4f6;
+  font-size: 1.875rem;
+  font-weight: 500;
+  max-width: 15rem;
+  margin-top: 1rem;
+  border: none;
+  outline: none;
+  padding: 0.25rem;
+}
+
+.divider {
+  background-color: #9ca3af;
+  height: 1px;
+  border-style: none;
+  margin-left: 0;
+  width: 25%;
+}
+
+.section-title {
+  color: #009688;
+  text-decoration: underline;
+  margin-top: 1rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  gap: 0.625rem;
+  margin-top: 0.75rem;
+  color: #374151;
+}
+
+.info-label {
+  font-weight: 500;
+}
+
+.info-value {
+  color: #6b7280;
+}
+
+.email {
+  color: #2563eb;
+}
+
+.phone {
+  color: #3b82f6;
+}
+
+.address {
+  color: #4b5563;
+}
+
+.edit-input {
+  background-color: #f3f4f6;
+  max-width: 13rem;
+  border: none;
+  outline: none;
+  padding: 0.25rem;
+}
+
+.edit-select {
+  max-width: 5rem;
+  background-color: #f3f4f6;
+  border: none;
+  outline: none;
+  padding: 0.25rem;
+}
+
+.button-container {
+  margin-top: 2.5rem;
+}
+
+.action-button {
+  border: 1px solid #009688;
+  padding: 0.5rem 2rem;
+  border-radius: 9999px;
+  transition: all 0.3s;
+  background-color: transparent;
+  color: #009688;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #009688;
+  color: white;
+}
+
+.image-isEdith {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.image-isEdith-one {
+  width: 9rem;
+  border-radius: 0.25rem;
+  opacity: 0.75;
+}
+
+.image-isedith-two {
+  width: 2.5rem;
+  position: absolute;
+  bottom: 3rem;
+  right: 3rem;
+}
+
+@media (max-width: 768px) {
+
+  .profile-container {
+    gap: 0.25rem;
+    padding: 2% 0 0 10%;
   }
-  
-  .form-group {
-    margin-bottom: 15px;
+
+  .profile-image {
+    width: 7rem;
   }
-  
-  button {
-    margin-top: 10px;
+
+  .profile-name {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
   }
-  
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .divider {
+    width: 65%;
+  }
+}

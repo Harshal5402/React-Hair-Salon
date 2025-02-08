@@ -13,6 +13,8 @@ import img_two from './img_two.jpg'
 import img_three from './img_three.jpg'
 import footer_img from './footer_img.png'
 import menu_icon from './menu_icon.png'
+import profile_pic from './profile_pic.png'
+import upload_icon from './upload_icon.png'
 
 
 
@@ -31,5 +33,7 @@ export const assets = {
     img_two,
     img_three,
     footer_img,
-    menu_icon
+    menu_icon,
+    profile_pic,
+    upload_icon
 }

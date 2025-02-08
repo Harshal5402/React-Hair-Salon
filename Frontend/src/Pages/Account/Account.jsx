@@ -1,83 +1,201 @@
-import React, { useContext, useEffect, useState } from 'react'
-import "./Account.css"
-import { StoreContext } from '../../Context/StoreContext';
-import axios from 'axios'
+import React, { useContext, useState } from "react";
+import "./Account.css";
+import { StoreContext } from "../../Context/StoreContext";
+import { assets } from "../../assets/assets";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Account = () => {
+  const { userData, setUserData, token, url, loadUserProfileData } =
+    useContext(StoreContext);
 
-  const { url } = useContext(StoreContext);
-  const [userInfo, setUserInfo] = useState({
-    name: '',
-    email: '',
-    photo: '',
-    phone: '',
-    address: '',
-    gender: '',
-    dob: '',
-  });
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [image, setImage] = useState(false);
 
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
+  const updateUserProfileData = async () => {
+    try {
+      const formData = new FormData();
+
+      formData.append("name", userData.name);
+      formData.append("phone", userData.phone);
+      formData.append("address", JSON.stringify(userData.address));
+      formData.append("gender", userData.gender);
+      formData.append("dob", userData.dob);
+
+      image && formData.append("image", image);
+
+      const { data } = await axios.post(
+        `${url}/api/user/updateProfile`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        await loadUserProfileData();
+        setIsEdit(false);
+        setImage(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios.put(`${url}/api/account/updateaccount`, userInfo)
-    .then(response => {
-      setUserInfo(response.data);
-      setIsEditing(false);
-    })
-    .catch(error => console.error('Error updating account info: ', error));
-  };
-
-  useEffect(() => {
-    axios.get(`${url}/api/account/getaccount`)
-    .then(response => setUserInfo(response.data))
-    .catch(error => console.error('Error fetching account info: ', error));
-  }, []);
 
   return (
-    <div className='account-container'>
-      <h1>Your Account</h1>
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <label>Name:</label>
-          <input type="text" value={userInfo.name} disabled={!isEditing} onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })} />
+    userData && (
+      <div className="profile-container">
+        {isEdit ? (
+          <label htmlFor="image">
+            <div className="image-isEdith">
+              <img
+                className="image-isEdith-one"
+                src={image ? URL.createObjectURL(image) : userData.image}
+                alt=""
+              />
+              <img
+                className="image-isedith-two"
+                src={image ? "" : assets.upload_icon}
+                alt=""
+              />
+            </div>
+            <input
+              onChange={(e) => setImage(e.target.files[0])}
+              type="file"
+              id="image"
+              hidden
+            />
+          </label>
+        ) : (
+          <img className="profile-image" src={userData.image} alt="Profile" />
+        )}
+
+        {isEdit ? (
+          <input
+            className="edit-name-input"
+            type="text"
+            value={userData.name}
+            onChange={(e) =>
+              setUserData((prev) => ({ ...prev, name: e.target.value }))
+            }
+          />
+        ) : (
+          <p className="profile-name">{userData.name}</p>
+        )}
+
+        <hr className="divider" />
+
+        <div>
+          <p className="section-title">CONTACT INFORMATION</p>
+          <div className="info-grid">
+            <p className="info-label">Email id:</p>
+            <p className="info-value email">{userData.email}</p>
+
+            <p className="info-label">Phone:</p>
+            {isEdit ? (
+              <input
+                className="edit-input"
+                type="text"
+                value={userData.phone}
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, phone: e.target.value }))
+                }
+              />
+            ) : (
+              <p className="info-value phone">{userData.phone}</p>
+            )}
+
+            <p className="info-label">Address:</p>
+            {isEdit ? (
+              <div>
+                <input
+                  className="edit-input"
+                  type="text"
+                  value={userData.address.line1}
+                  onChange={(e) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      address: { ...prev.address, line1: e.target.value },
+                    }))
+                  }
+                />
+                <br />
+                <input
+                  className="edit-input"
+                  type="text"
+                  value={userData.address.line2}
+                  onChange={(e) =>
+                    setUserData((prev) => ({
+                      ...prev,
+                      address: { ...prev.address, line2: e.target.value },
+                    }))
+                  }
+                />
+              </div>
+            ) : (
+              <p className="info-value address">
+                {userData.address.line1}
+                <br />
+                {userData.address.line2}
+              </p>
+            )}
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Email:</label>
-          <input type="email" value={userInfo.email} disabled={!isEditing} onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })} />
+        <div>
+          <p className="section-title">BASIC INFORMATION</p>
+          <div className="info-grid">
+            <p className="info-label">Gender:</p>
+            {isEdit ? (
+              <select
+                className="edit-select"
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, gender: e.target.value }))
+                }
+                value={userData.gender}
+              >
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            ) : (
+              <p className="info-value">{userData.gender}</p>
+            )}
+
+            <p className="info-label">BirthDay:</p>
+            {isEdit ? (
+              <input
+                className="edit-input"
+                type="date"
+                value={userData.dob}
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, dob: e.target.value }))
+                }
+              />
+            ) : (
+              <p className="info-value">{userData.dob}</p>
+            )}
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Phone:</label>
-          <input type="text" value={userInfo.phone} disabled={!isEditing} onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })} />
+        <div className="button-container">
+          {isEdit ? (
+            <button className="action-button" onClick={updateUserProfileData}>
+              Save Information
+            </button>
+          ) : (
+            <button className="action-button" onClick={() => setIsEdit(true)}>
+              Edit
+            </button>
+          )}
         </div>
+      </div>
+    )
+  );
+};
 
-        <div className="form-group">
-          <label>Address:</label>
-          <input type="text" value={userInfo.address} disabled={!isEditing} onChange={(e) => setUserInfo({ ...userInfo, address: e.target.value })} />
-        </div>
-
-        <div className="form-group">
-          <label>Gender:</label>
-          <input type="text" value={userInfo.gender} disabled={!isEditing} onChange={(e) => setUserInfo({ ...userInfo, gender: e.target.value })} />
-        </div>
-
-        <div className="form-group">
-          <label>Date of Birth:</label>
-          <input type="date" value={userInfo.dob} disabled={!isEditing} onChange={(e) => setUserInfo({ ...userInfo, dob: e.target.value })} />
-        </div>
-
-        <div className="form-group">
-          <label>Profile Photo:</label>
-          <input type="file" disabled={!isEditing} onChange={(e) => setUserInfo({ ...userInfo, photo: e.target.files[0] })} />
-        </div>
-      </form>
-    </div>
-  )
-}
-
-export default Account
+export default Account;

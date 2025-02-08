@@ -1,65 +1,85 @@
 import { createContext, useEffect, useState } from "react";
-import { toast } from 'react-toastify'; 
+import { toast } from "react-toastify";
+import axios from "axios"
 
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
+  const [appointment, setAppointment] = useState(null);
+  const url = "http://localhost:4000";
+  const [token, setToken] = useState("");
+  const [userData, setUserData] = useState(false);
 
-    // const [appointment, setAppointment] = useState(() => {
-    //     const savedAppointment = localStorage.getItem('appointment');
-    //     return savedAppointment ? JSON.parse(savedAppointment) : null;
-    // });
+  // When booking an appointment, set the appointment details
+  const bookAppointment = (appointmentData) => {
+    setAppointment(appointmentData);
+  };
 
-    const [appointment, setAppointment] = useState(null);
-    const url = "http://localhost:4000";
-    const [token, setToken] = useState(""); 
+  // For fetching one appointment on cart
+  const getAppointment = (appointmentData) => {
+    setAppointment(appointmentData);
+  };
 
-      
-    
-    // When booking an appointment, set the appointment details
-    const bookAppointment = (appointmentData) => {
-        setAppointment(appointmentData);
-    };
+  // Remove appointment on cart clear or other actions
+  const removeAppointment = () => {
+    setAppointment(null);
+  };
 
-    // For fetching one appointment on cart
-    const getAppointment = (appointmentData) => {
-        setAppointment(appointmentData);
+  const loadUserProfileData = async () => {
+    try {
+      const { data } = await axios.get(`${url}/api/user/getProfile`, {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+      });
+
+      console.log(data); 
+
+      if (data.success) {
+        setUserData(data.userData);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
     }
-  
-    // Remove appointment on cart clear or other actions
-    const removeAppointment = () => {
-        setAppointment(null);
-    };
+  };
 
-    // // For fetching all the apppointments
-    // const FetchAppointment = (appointmentData) => {
-    //     setAppointment(appointmentData)
-    // }
+  useEffect(() => {
+    if (token) {
+      loadUserProfileData();
+    } else {
+      setUserData(false);
+    }
+  }, [token]);
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            setToken(storedToken);
-        }
-        console.log("Stored Token:", storedToken); 
-    }, []);
-    
-    const contextValue = {
-        url,
-        token,
-        setToken,
-        appointment,
-        bookAppointment,
-        removeAppointment,
-        getAppointment,
-        // FetchAppointment,
-    };
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+    console.log("Stored Token:", storedToken);
+  }, []);
 
-    return (
-        <StoreContext.Provider value={contextValue}>
-            {props.children}
-        </StoreContext.Provider>
-    );
+  const contextValue = {
+    url,
+    token,
+    setToken,
+    appointment,
+    bookAppointment,
+    removeAppointment,
+    getAppointment,
+    userData,
+    setUserData,
+    loadUserProfileData
+  };
+
+  return (
+    <StoreContext.Provider value={contextValue}>
+      {props.children}
+    </StoreContext.Provider>
+  );
 };
 
 export default StoreContextProvider;
