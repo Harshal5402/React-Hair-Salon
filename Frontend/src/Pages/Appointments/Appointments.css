@@ -4,76 +4,58 @@
 }
 
 form {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  color: #009688;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #009688;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+button[type="submit"] {
+  width: 100%;
+  margin-top: 5%;
+}
+
+@media screen and (max-width: 600px) {
+  form {
+    padding: 10px;
+    max-width: 90%;
   }
 
-  label {
-    display: block;
-    font-size: 1rem;
-    color: #009688;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    background-color: #009688;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #00796b;
-  }
-  
-  button:disabled {
-    background-color: #e0e0e0;
-    cursor: not-allowed;
-  }
-  
   button[type="button"] {
-    margin-right: 10px;
-    margin-bottom: 10px;
-    width: 80px;
+    width: 20%;
   }
-  
-  button[type="button"]:not(:disabled) {
-    background-color: #009688;
-  }
-  
-  button[type="button"]:disabled {
-    background-color: #f44336;
-  }
-  
-  button[type="submit"] {
-    width: 100%;
-    margin-top: 5%;
-  }
-  
-  @media screen and (max-width: 600px) {
-    form {
-      padding: 10px;
-      max-width: 90%;
-    }
-  
-    button[type="button"] {
-      width: 20%;
-    }
-  }  
+}

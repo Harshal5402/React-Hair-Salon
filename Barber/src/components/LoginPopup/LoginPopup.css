@@ -69,14 +69,14 @@
 
 .login-popup-condition{
     display: flex;
-    align-items: center;
-    /* align-items: start; */
+    /* align-items: center; */
+    align-items: start;
     gap: 4px;
     /* margin-top: 10px; */
 }
 
 .login-popup-condition input{
-    margin-top: 5px;
+    margin-top: 3px;
     width: 16px;
     height: 16px;   
 }

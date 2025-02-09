@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home ";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
+import Account from "./Pages/Account/Account";
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/add" element={<Add url={url} />} />
             <Route path="/list" element={<List url={url} />} />
             <Route path="/services" element={<Services url={url} />} />
+            <Route path="Account" element={<Account />} />
           </Routes>
         </div>
       </div>

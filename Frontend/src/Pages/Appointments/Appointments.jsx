@@ -199,6 +199,7 @@ const Appointment = () => {
                     backgroundColor: time.available ? "#8FBC8F" : "#E9967A",
                     color: "white",
                     marginRight: "10px",
+                    width: "80px",
                     marginBottom: "10px",
                     border:
                       selectedTime === time.slot ? "2px solid #006400" : "none", // Red border for selected button
