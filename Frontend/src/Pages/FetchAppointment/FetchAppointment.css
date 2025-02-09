@@ -22,7 +22,8 @@
 
 .fetch-info:hover {
     animation: fadeIn;
-    transform: scale(1.02);
+    /* transform: scale(1.02); */
+    transform: translateY(-3px);
 }
 
 .fetch-info p {
