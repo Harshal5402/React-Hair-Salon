@@ -5,8 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const FetchAppointment = () => {
-  const { url, token, appointment, removeAppointment, FetchAppointment } =
-    useContext(StoreContext);
+  const { url, token } = useContext(StoreContext);
   const [appointments, setAppointments] = useState([]);
 
   // Fetch appointment details

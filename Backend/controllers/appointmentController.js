@@ -124,4 +124,19 @@ const FetchAppointment = async(req, res) => {
     }
 };
 
-export {appointAvailable, appointmentBook, appointmentRemove, getAppointment, FetchAppointment};
+const adminAppointment = async(req, res) => {
+    try {
+        
+        const appointment = await Appointment.find({ isPaid: true }); // filter for paid
+
+        if (!appointment || appointment.length === 0) {
+            return res.json({ success: false, message: "No appointment found"});
+        }
+
+        res.json({ success: true, data: appointment});
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error fetching appointment", error: error.message});
+    }
+};
+
+export {appointAvailable, appointmentBook, appointmentRemove, getAppointment, FetchAppointment, adminAppointment};
