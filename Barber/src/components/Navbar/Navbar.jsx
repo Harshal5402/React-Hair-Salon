@@ -11,11 +11,11 @@ const Navbar = ({ setShowLogin }) => {
   const [menu, setmenu] = useState("");
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken("");
-    navigate("/");
-  };
+  // const logout = () => {
+  //   localStorage.removeItem("token");
+  //   setToken("");
+  //   navigate("/");
+  // };
 
   // Dropdown ko close karne ke liye click event listener
   useEffect(() => {
@@ -40,97 +40,57 @@ const Navbar = ({ setShowLogin }) => {
       <Link to="/">
         <img src={assets.logo} alt="" className="logo" />
       </Link>
-      {/* <img className='profile' src={assets.profile_image} alt="" /> */}
 
-      {token ? (
-        <div>
-          <ul className="navbar-menu">
-            <Link
-              to="/"
-              onClick={() => setmenu("Home")}
-              className={menu === "Home" ? "active" : ""}
-            >
-              Home
-            </Link>
+      <div className="navbar-menu-container">
+        <ul className="navbar-menu">
+          <Link
+            to="/"
+            onClick={() => setmenu("Home")}
+            className={menu === "Home" ? "active" : ""}
+          >
+            Home
+          </Link>
 
-            <Link
-              to="/add"
-              onClick={() => setmenu("Add")}
-              className={menu === "Add" ? "active" : ""}
-            >
-              Add Items
-            </Link>
+          <Link
+            to="/add"
+            onClick={() => setmenu("Add")}
+            className={menu === "Add" ? "active" : ""}
+          >
+            Add Items
+          </Link>
 
-            <Link
-              to="/list"
-              onClick={() => setmenu("List")}
-              className={menu === "List" ? "active" : ""}
-            >
-              List Items
-            </Link>
+          <Link
+            to="/list"
+            onClick={() => setmenu("List")}
+            className={menu === "List" ? "active" : ""}
+          >
+            List Items
+          </Link>
 
-            <Link
-              to="/services"
-              onClick={() => setmenu("Services")}
-              className={menu === "Services" ? "active" : ""}
-            >
-              Services
-            </Link>
+          <Link
+            to="/Appointments"
+            onClick={() => setmenu("Appointments")}
+            className={menu === "Appointments" ? "active" : ""}
+          >
+            Appointments
+          </Link>
 
-            <a
-              href="#footer"
-              onClick={() => setmenu("Contact-Us")}
-              className={menu === "Contact-Us" ? "active" : ""}
-            >
-              Contact Us
-            </a>
-          </ul>
-        </div>
-      ) : (
-        ""
-      )}
+          <a
+            href="#footer"
+            onClick={() => setmenu("Contact-Us")}
+            className={menu === "Contact-Us" ? "active" : ""}
+          >
+            Contact Us
+          </a>
+        </ul>
+      </div>
 
-      {!token ? (
-        <button onClick={() => setShowLogin(true)}>Sign In</button>
-      ) : (
-        <div
-          className="navbar-profile"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          <img src={assets.profile_icon} alt="" />
-          {showDropdown ? (
-            <ul className="nav-profile-dropdown">
-              <li>
-                <p
-                  onClick={() => {
-                    navigate("Account");
-                  }}
-                >
-                  Account
-                </p>
-              </li>
-
-              <hr />
-
-              <li onClick={logout}>
-                {/* <img src={assets.logout_icon} alt="" /> */}
-                <p>Logout</p>
-              </li>
-            </ul>
-          ) : null}
-        </div>
-      )}
-
-      {token ? (
-        <img
-          onClick={() => setShowSidebar(true)}
-          className="navbar-mobile-menu"
-          src={assets.menu_icon}
-          alt="Menu"
-        />
-      ) : (
-        ""
-      )}
+      <img
+        onClick={() => setShowSidebar(true)}
+        className="navbar-mobile-menu"
+        src={assets.menu_icon}
+        alt="Menu"
+      />
 
       {/*----- Mobile menu------------*/}
 
@@ -146,14 +106,6 @@ const Navbar = ({ setShowLogin }) => {
 
         <div className="sidebar-menu-content">
           <NavLink
-            to="Account"
-            onClick={() => setShowSidebar(false)}
-            className={menu === "Account" ? "active" : ""}
-          >
-            Account
-          </NavLink>
-
-          <NavLink
             to="/"
             onClick={() => setShowSidebar(false)}
             className={menu === "Home" ? "active" : ""}
@@ -163,8 +115,8 @@ const Navbar = ({ setShowLogin }) => {
 
           <NavLink
             to="/add"
-              onClick={() => setmenu("Add")}
-              className={menu === "Add" ? "active" : ""}
+            onClick={() => setmenu("Add")}
+            className={menu === "Add" ? "active" : ""}
           >
             Add Items
           </NavLink>
@@ -182,7 +134,7 @@ const Navbar = ({ setShowLogin }) => {
             onClick={() => setmenu("Services")}
             className={menu === "Services" ? "active" : ""}
           >
-            Services
+            Appointments
           </NavLink>
 
           <NavLink
@@ -192,10 +144,6 @@ const Navbar = ({ setShowLogin }) => {
           >
             Contact Us
           </NavLink>
-
-          <p className="sidebar-logout" onClick={logout}>
-            Logout
-          </p>
         </div>
       </div>
     </div>

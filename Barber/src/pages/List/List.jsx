@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from 'react'
-import './List.css'
-import axios from 'axios'
-import { toast } from 'react-toastify'
+import React, { useEffect, useState, useContext } from "react";
+import "./List.css";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { StoreContext } from "../../Context/StoreContext.jsx";
 
 const List = () => {
-  
-  const url = "http://localhost:4000"
   const [list, setList] = useState([]);
+  const { url } = useContext(StoreContext);
 
   const fetchList = async () => {
     const response = await axios.get(`${url}/api/service/list`);
     if (response.data.success) {
-      setList(response.data.data)
-    } 
-    else {
-      toast.error('Error')  
+      setList(response.data.data);
+    } else {
+      toast.error("Error");
     }
-  }
+  };
 
   const removeService = async (serviceId) => {
-    const response = await axios.post(`${url}/api/service/remove`, {id:serviceId});
+    const response = await axios.post(`${url}/api/service/remove`, {
+      id: serviceId,
+    });
     await fetchList();
     if (response.data.success) {
-      toast.success(response.data.message)
+      toast.success(response.data.message);
     } else {
-      toast.error("Error")
+      toast.error("Error");
     }
-  }
+  };
 
   useEffect(() => {
     fetchList();
-  }, [])
- 
+  }, []);
+
   return (
-    <div className='list-add flex-col'>
+    <div className="list-add flex-col">
       {/* <p>All Services List</p> */}
       <h1>All Services List</h1>
       <div className="list-table">
@@ -53,13 +54,15 @@ const List = () => {
               <p>{item.description}</p>
               <p>{item.category}</p>
               <p>&#8377; {item.price}</p>
-              <p onClick={() => removeService(item._id)} className='cursor'>x</p>
+              <p onClick={() => removeService(item._id)} className="cursor">
+                x
+              </p>
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default List
+export default List;
