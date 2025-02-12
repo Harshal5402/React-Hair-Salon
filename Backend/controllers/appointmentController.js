@@ -139,4 +139,31 @@ const adminAppointment = async(req, res) => {
     }
 };
 
-export {appointAvailable, appointmentBook, appointmentRemove, getAppointment, FetchAppointment, adminAppointment};
+const adminRemoveAppointment = async(req, res) => {
+    try {
+        const { appointmentId } = req.body;
+
+        if (!appointmentId) {
+            return res.status(400).json({ success: false, message: "Appointment ID is required" });
+        }
+
+        const appointmentData = await Appointment.findById(appointmentId);
+        
+
+        if (!appointmentData) {
+            return res.status(404).json({ success: false, message: "Appointment not found" });
+        }
+
+        const deletedAppointment = await Appointment.findByIdAndDelete(appointmentId);
+
+        if (!deletedAppointment) {
+            return res.status(404).json({ success: false, message: "No appointment found"});
+        }
+
+        res.json({ success: true, message: "Appointment removed successfully"});
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error removing appointment", error: error.message});
+    }
+}
+
+export {appointAvailable, appointmentBook, appointmentRemove, getAppointment, FetchAppointment, adminAppointment, adminRemoveAppointment};

@@ -28,15 +28,11 @@ const Appointment = () => {
   };
 
   // Remove Appointment
-  const handleRemoveAppointment = async () => {
+  const handleRemoveAppointment = async (appointmentId) => {
     try {
       const response = await axios.delete(
-        `${url}/api/appoint/appointmentRemove`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${url}/api/appoint/adminremoveappointment`,
+        { data: { appointmentId } }
       );
 
       if (response.data.success) {
@@ -47,6 +43,7 @@ const Appointment = () => {
       }
     } catch (error) {
       toast.error("Error removing appointment");
+      toast.error(error.message);
     }
   };
 
@@ -80,7 +77,7 @@ const Appointment = () => {
             </p>
             <span
               className="remove-appointment"
-              onClick={handleRemoveAppointment}
+              onClick={() => handleRemoveAppointment(appointment._id)}
             >
               x
             </span>
