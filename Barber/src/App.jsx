@@ -24,10 +24,10 @@ const App = () => {
         <div className="app-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/add" element={<Add />} />
-            <Route path="/list" element={<List />} />
-            <Route path="/Appointments" element={<Appointment />} />
-            <Route path="Account" element={<Account />} />
+            <Route path="Add" element={<Add />} />
+            <Route path="List" element={<List />} />
+            <Route path="Appointments" element={<Appointment />} />
+            {/* <Route path="Account" element={<Account />} /> */}
           </Routes>
         </div>
       </div>

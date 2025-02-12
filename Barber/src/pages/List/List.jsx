@@ -37,29 +37,31 @@ const List = () => {
     <div className="list-add flex-col">
       {/* <p>All Services List</p> */}
       <h1>All Services List</h1>
-      <div className="list-table">
-        <div className="list-table-format title">
-          <b>Image</b>
-          <b>Name</b>
-          <b>Description</b>
-          <b>Category</b>
-          <b>Price</b>
-          <b>Action</b>
+      <div className="list-table-container">
+        <div className="list-table">
+          <div className="list-table-format title">
+            <b>Image</b>
+            <b>Name</b>
+            <b>Description</b>
+            <b>Category</b>
+            <b>Price</b>
+            <b>Action</b>
+          </div>
+          {list.map((item, index) => {
+            return (
+              <div key={index} className="list-table-format">
+                <img src={`${url}/images/` + item.image} alt="" />
+                <p>{item.name}</p>
+                <p>{item.description}</p>
+                <p>{item.category}</p>
+                <p>&#8377; {item.price}</p>
+                <p onClick={() => removeService(item._id)} className="cursor">
+                  x
+                </p>
+              </div>
+            );
+          })}
         </div>
-        {list.map((item, index) => {
-          return (
-            <div key={index} className="list-table-format">
-              <img src={`${url}/images/` + item.image} alt="" />
-              <p>{item.name}</p>
-              <p>{item.description}</p>
-              <p>{item.category}</p>
-              <p>&#8377; {item.price}</p>
-              <p onClick={() => removeService(item._id)} className="cursor">
-                x
-              </p>
-            </div>
-          );
-        })}
       </div>
     </div>
   );

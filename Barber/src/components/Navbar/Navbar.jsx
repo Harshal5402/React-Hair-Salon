@@ -52,7 +52,7 @@ const Navbar = ({ setShowLogin }) => {
           </Link>
 
           <Link
-            to="/add"
+            to="Add"
             onClick={() => setmenu("Add")}
             className={menu === "Add" ? "active" : ""}
           >
@@ -60,7 +60,7 @@ const Navbar = ({ setShowLogin }) => {
           </Link>
 
           <Link
-            to="/list"
+            to="List"
             onClick={() => setmenu("List")}
             className={menu === "List" ? "active" : ""}
           >
@@ -68,7 +68,7 @@ const Navbar = ({ setShowLogin }) => {
           </Link>
 
           <Link
-            to="/Appointments"
+            to="Appointments"
             onClick={() => setmenu("Appointments")}
             className={menu === "Appointments" ? "active" : ""}
           >
@@ -114,25 +114,25 @@ const Navbar = ({ setShowLogin }) => {
           </NavLink>
 
           <NavLink
-            to="/add"
-            onClick={() => setmenu("Add")}
+            to="Add"
+            onClick={() => setShowSidebar(false)}
             className={menu === "Add" ? "active" : ""}
           >
             Add Items
           </NavLink>
 
           <NavLink
-            to="/list"
-            onClick={() => setmenu("List")}
+            to="List"
+            onClick={() => setShowSidebar(false)}
             className={menu === "List" ? "active" : ""}
           >
             List Items
           </NavLink>
 
           <NavLink
-            to="/services"
-            onClick={() => setmenu("Services")}
-            className={menu === "Services" ? "active" : ""}
+            to="Appointments"
+            onClick={() => setShowSidebar(false)}
+            className={menu === "Appointments" ? "active" : ""}
           >
             Appointments
           </NavLink>
