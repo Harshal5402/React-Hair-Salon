@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home ";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
-import Account from "./Pages/Account/Account";
+// import Account from "./Pages/Account/Account";
 import Appointment from "./pages/Appointment/Appointment";
 
 
