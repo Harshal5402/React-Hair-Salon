@@ -2,6 +2,9 @@ import Stripe from 'stripe';
 import cartModel from '../models/cartModel.js';
 import Appointment from '../models/appointmentModel.js';
 
+ const FRONTEND_URL = "http://localhost:5173"
+
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const stripePayment = async (req, res) => {
@@ -37,8 +40,8 @@ const stripePayment = async (req, res) => {
       payment_method_types: ['card'],
       line_items,
       mode: 'payment',
-      success_url: `${process.env.FRONTEND_URL}/payment-success`,
-      cancel_url: `${process.env.FRONTEND_URL}/payment-cancelled`,
+      success_url: `${FRONTEND_URL}/payment-success`,
+      cancel_url: `${FRONTEND_URL}/payment-cancelled`,
       billing_address_collection: 'required', // Customer ka address mandatory
       customer_email: customerEmail, // Email include karo
       metadata: {
