@@ -169,32 +169,37 @@ const Cart = () => {
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      <div className="list-table">
-        <div className="list-table-format title">
-          <b>Image</b>
-          <b>Name</b>
-          <b>Description</b>
-          <b>Category</b>
-          <b>Price</b>
-          <b>Remove</b>
-        </div>
+      <div className="cart-list-table-container">
+        <div className="cart-list-table">
+          <div className="cart-list-table-format title">
+            <b>Image</b>
+            <b>Name</b>
+            <b>Description</b>
+            <b>Category</b>
+            <b>Price</b>
+            <b>Remove</b>
+          </div>
 
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty</p>
-        ) : (
-          cartItems.map((item, index) => (
-            <div key={index} className="list-table-format">
-              <img src={`${url}/images/` + item.image} alt={item.name} />
-              <p>{item.name}</p>
-              <p>{item.description}</p>
-              <p>{item.category}</p>
-              <p>&#8377; {item.price}</p>
-              <p onClick={() => handleRemoveFromCart(item)} className="cursor">
-                x
-              </p>
-            </div>
-          ))
-        )}
+          {cartItems.length === 0 ? (
+            <p>Your cart is empty</p>
+          ) : (
+            cartItems.map((item, index) => (
+              <div key={index} className="cart-list-table-format">
+                <img src={`${url}/images/` + item.image} alt={item.name} />
+                <p>{item.name}</p>
+                <p>{item.description}</p>
+                <p>{item.category}</p>
+                <p>&#8377; {item.price}</p>
+                <p
+                  onClick={() => handleRemoveFromCart(item)}
+                  className="cursor"
+                >
+                  x
+                </p>
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
       <br />

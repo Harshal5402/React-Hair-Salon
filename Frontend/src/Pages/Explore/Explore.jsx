@@ -97,9 +97,9 @@ const Explore = () => {
 
             <br />
 
-            <div className="list-table-container">
-                <div className="list-table">
-                    <div className="list-table-format title">
+            <div className="explore-list-table-container">
+                <div className="explore-list-table">
+                    <div className="explore-list-table-format title">
                         <b>Image</b>
                         <b>Name</b>
                         <b>Description</b>
@@ -109,7 +109,7 @@ const Explore = () => {
                     </div>
 
                     {filteredServices.map((item, index) => (
-                        <div key={index} className="list-table-format">
+                        <div key={index} className="explore-list-table-format">
                             <img src={`${url}/images/` + item.image} alt={item.name} />
                             <p>{item.name}</p>
                             <p>{item.description}</p>
