@@ -60,7 +60,6 @@ const createToken = (id) => {
 const registerUser = async (req, res) => {
   const { name, password, email } = req.body;
   try {
-    // checking is user already exists
     const exists = await userModel.findOne({ email });
     if (exists) {
       return res.json({
@@ -69,7 +68,6 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // validating email format and strong password
     if (!validator.isEmail(email)) {
       return res.json({
         success: false,
@@ -84,7 +82,6 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // hashing user password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -125,8 +122,8 @@ const getProfile = async (req, res) => {
 // API to update user profile
 const updateProfile = async (req, res) => {
   try {
-    console.log('Request Body:', req.body);  // Log request body
-    console.log('Uploaded File:', req.file);  // Log uploaded file
+    console.log('Request Body:', req.body); 
+    console.log('Uploaded File:', req.file); 
 
     const userId = req.userId;
   const { name, phone, address, gender, dob } = req.body;
@@ -145,7 +142,6 @@ const updateProfile = async (req, res) => {
     });
 
     if (imageFile) {
-        // upload image to cloudinary
         const imageUpload = await cloudinary.uploader.upload(imageFile.path,{resource_type: 'image'})
         const imageURL = imageUpload.secure_url
 

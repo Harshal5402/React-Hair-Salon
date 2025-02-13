@@ -2,7 +2,6 @@ import serviceModel from "../models/serviceModel.js";
 import fs from "fs";
 
 // add service item
-
 const addService = async (req, res) => {
     let image_filename = `${req.file.filename}`;
 

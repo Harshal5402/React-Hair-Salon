@@ -16,24 +16,21 @@ const appointAvailable = async (req, res) => {
 
 // Book appointment
 const appointmentBook = async (req, res) => {
-    console.log("Appointment API Called");  // Debugging Step 1
-    console.log("Request Body:", req.body);  // Debugging Step 2
+    console.log("Appointment API Called");  
+    console.log("Request Body:", req.body);
 
     const { name, surname, email, mobile, address, date, time } = req.body;
-    const userId = req.userId; // Assuming user ID is extracted from the token
+    const userId = req.userId; 
 
     console.log("User ID from Token:", userId);
 
     
 
     try {
-
-        // Check if req.user is undefined or not
         if (!req.userId) {
             return res.status(401).json({ message: "User not authenticated" });
         }
   
-        // Check if the time slot is already booked
         const existingAppointment = await Appointment.findOne({ date, time });
         if (existingAppointment) {
             return res.status(400).json({
@@ -42,7 +39,6 @@ const appointmentBook = async (req, res) => {
             });
         }
 
-        // Save the appointment with userId
         const appointment = new Appointment({
             userId,
             name,
@@ -55,7 +51,7 @@ const appointmentBook = async (req, res) => {
         });
         await appointment.save();
 
-        console.log("Appointment Saved Successfully");  // Debugging Step
+        console.log("Appointment Saved Successfully");  
 
         res.json({
             success: true,
@@ -67,7 +63,7 @@ const appointmentBook = async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Server error. Please try again later.",
-            error: error.message // Debugging ke liye
+            error: error.message 
         });
     }
 };
@@ -78,8 +74,7 @@ const getAppointment = async(req, res) => {
         const userId = req.userId;
         console.log("User ID from Token:", userId);
 
-        const appointment = await Appointment.findOne({ userId, isPaid: false }); // filter for unpaid
-
+        const appointment = await Appointment.findOne({ userId, isPaid: false });  
         if (!appointment) {
             return res.json({ success: false, message: "No appointment found"});
         }
@@ -112,7 +107,7 @@ const FetchAppointment = async(req, res) => {
         const userId = req.userId;
         console.log("User ID from Token:", userId);
 
-        const appointment = await Appointment.find({ userId, isPaid: true }); // filter for paid
+        const appointment = await Appointment.find({ userId, isPaid: true }); 
 
         if (!appointment || appointment.length === 0) {
             return res.json({ success: false, message: "No appointment found"});
@@ -127,7 +122,7 @@ const FetchAppointment = async(req, res) => {
 const adminAppointment = async(req, res) => {
     try {
         
-        const appointment = await Appointment.find({ isPaid: true }); // filter for paid
+        const appointment = await Appointment.find({ isPaid: true }); 
 
         if (!appointment || appointment.length === 0) {
             return res.json({ success: false, message: "No appointment found"});

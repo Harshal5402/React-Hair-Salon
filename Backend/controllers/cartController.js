@@ -2,7 +2,7 @@ import cartModel from "../models/cartModel.js";
 
 const addToCart = async (req, res) => {
     const { serviceId } = req.body;
-    const userId = req.userId; // Extracted from middleware
+    const userId = req.userId; 
 
     if (!serviceId) {
         return res.status(400).json({
@@ -35,12 +35,12 @@ const addToCart = async (req, res) => {
 
 
 const getCartItems = async (req, res) => {
-    const userId = req.userId; // Extracted from middleware
-    console.log("User ID:", userId); // Check if userId is coming correctly
+    const userId = req.userId; 
+    console.log("User ID:", userId); 
 
     try {
         const cartItems = await cartModel.find({ userId }).populate('serviceId', 'name description price category image'); // Populate serviceId to get service details
-        console.log("Cart Items:", cartItems); // Check cartItems data
+        console.log("Cart Items:", cartItems); 
 
         const formattedCartItems = cartItems.map((item) => ({
             id: item._id,
@@ -49,11 +49,9 @@ const getCartItems = async (req, res) => {
             description: item.serviceId.description,
             price: item.serviceId.price,
             category: item.serviceId.category,
-            image: item.serviceId.image, // Include image if required
+            image: item.serviceId.image, 
         }));
 
-
-        // res.status(200).json({ success: true, data: cartItems });
         res.status(200).json({ success: true, data: formattedCartItems });
     } catch (error) {
         console.error(error);
