@@ -7,7 +7,10 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [appointment, setAppointment] = useState(null);
   const url = "https://react-hair-salon-backend.onrender.com";
-  const [token, setToken] = useState("");
+  // const url = "http://localhost:4000"
+  
+  // const [token, setToken] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [userData, setUserData] = useState(false);
 
   // When booking an appointment, set the appointment details
@@ -26,6 +29,7 @@ const StoreContextProvider = (props) => {
   };
 
   const loadUserProfileData = async () => {
+    if (!token) return;
     try {
       const { data } = await axios.get(`${url}/api/user/getProfile`, {
         headers: {
@@ -47,20 +51,20 @@ const StoreContextProvider = (props) => {
   };
 
   useEffect(() => {
-    if (token) {
-      loadUserProfileData();
-    } else {
-      setUserData(false);
-    }
-  }, [token]);
-
-  useEffect(() => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
     }
     console.log("Stored Token:", storedToken);
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      loadUserProfileData();
+    } else {
+      setUserData(false);
+    }
+  }, [token]);
 
   const contextValue = {
     url,

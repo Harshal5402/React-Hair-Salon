@@ -35,11 +35,6 @@
 
 // export default Payment;
 
-
-
-
-
-
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -47,14 +42,14 @@ import axios from "axios";
 import "./Payment.css";
 import { StoreContext } from "../../Context/StoreContext";
 
-
 const Payment = () => {
-    const { url } = useContext(StoreContext);
+  const {url, token} = useContext(StoreContext);
   const [redirectMessage, setRedirectMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
+    console.log("useEffect called");
     const params = new URLSearchParams(location.search);
     const sessionId = params.get("session_id");
 
@@ -72,10 +67,16 @@ const Payment = () => {
   }, [location, navigate]);
 
   const verifyPayment = async (sessionId) => {
+    console.log("Token Being Sent:", token); // Debug token before sending
+
     try {
       const response = await axios.get(
         `${url}/api/checkout/payment-success?session_id=${sessionId}`,
-        { withCredentials: true } // Ensure cookies are sent if needed
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.data.success) {
@@ -85,7 +86,10 @@ const Payment = () => {
           navigate("/fetchAppointment");
         }, 3000);
       } else {
-        console.error("Payment verification error:", error.response || error.message);
+        console.error(
+          "Payment verification error:",
+          error.response || error.message
+        );
         toast.error("Payment verification failed! ❌");
         setRedirectMessage("Redirecting to Cart...");
         setTimeout(() => {
@@ -93,14 +97,19 @@ const Payment = () => {
         }, 3000);
       }
     } catch (error) {
-      console.error("Payment verification error:", error);
-      toast.error("Something went wrong! ❌");
+      console.error("Payment verification error:", error.response || error.message);
+      toast.error(error.response?.data?.message || error.message || "Something went wrong! ❌");
+      // toast.error(error.message);
       setRedirectMessage("Redirecting to Cart...");
       setTimeout(() => {
         navigate("/cart");
       }, 3000);
     }
   };
+
+  useEffect(() => {
+    console.log("Token:", token);
+  }, [token]);
 
   return (
     <div className="payment-success-container">
