@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Cart = () => {
-  const { url, token, appointment, removeAppointment, getAppointment } =
-    useContext(StoreContext);
+  const { url, token, appointment, removeAppointment, getAppointment } = useContext(StoreContext);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
