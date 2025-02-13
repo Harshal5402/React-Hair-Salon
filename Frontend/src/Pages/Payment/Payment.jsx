@@ -58,6 +58,8 @@ const Payment = () => {
     const params = new URLSearchParams(location.search);
     const sessionId = params.get("session_id");
 
+    console.log("Session ID:", sessionId); // Check if session_id is coming correctly
+
     if (location.pathname === "/payment-success" && sessionId) {
       verifyPayment(sessionId);
     } else if (location.pathname === "/payment-cancelled") {
@@ -83,6 +85,7 @@ const Payment = () => {
           navigate("/fetchAppointment");
         }, 3000);
       } else {
+        console.error("Payment verification error:", error.response || error.message);
         toast.error("Payment verification failed! ❌");
         setRedirectMessage("Redirecting to Cart...");
         setTimeout(() => {
