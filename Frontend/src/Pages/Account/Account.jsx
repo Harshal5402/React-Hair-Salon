@@ -159,6 +159,7 @@ const Account = () => {
                 }
                 value={userData.gender}
               >
+                <option value="Default">Default</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>
