@@ -3,6 +3,7 @@ import cartModel from "../models/cartModel.js";
 import Appointment from "../models/appointmentModel.js";
 
 const FRONTEND_URL = "https://react-hair-salon-frontend.onrender.com";
+// const FRONTEND_URL = "http://localhost:5173";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -93,7 +94,7 @@ const handlePaymentSuccess = async (req, res) => {
       if (appointment) {
         await Appointment.updateOne(
           { userId, isPaid: false },
-          { $set: { isPaid: true } }
+          { $set: { isPaid: true, receiptUrl: session.receipt_url, } }
         );
         console.log(`Appointment marked as paid for user ID: ${userId}`);
       }

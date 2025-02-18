@@ -43,6 +43,9 @@ const appointmentSchema = new mongoose.Schema({
   isPaid:{
     type: Boolean,
     default: false,
+  },
+  receiptUrl:{
+    type: String
   }
 });
 
