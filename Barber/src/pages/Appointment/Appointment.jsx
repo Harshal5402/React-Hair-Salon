@@ -75,6 +75,17 @@ const Appointment = () => {
             <p>
               <strong>Time:</strong> {appointment.time}
             </p>
+            <p>
+              {appointment.receiptUrl && (
+                <a
+                  href={appointment.receiptUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Payment Receipt
+                </a>
+              )}
+            </p>
             <span
               className="remove-appointment"
               onClick={() => handleRemoveAppointment(appointment._id)}
