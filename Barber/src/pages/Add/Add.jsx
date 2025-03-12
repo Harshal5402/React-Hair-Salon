@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Add.css";
 import { assets } from "../../assets/assets";
 import axios from "axios";
@@ -44,6 +44,7 @@ const Add = () => {
     }
   };
 
+
   return (
     <div className="add">
       <form className="flex-col" onSubmit={onSubmitHandler}>
@@ -87,7 +88,7 @@ const Add = () => {
         <div className="add-category-price">
           <div className="add-category flex-col">
             <p>Service Category</p>
-            <select onChange={onChangeHandler} name="category">
+            <select onChange={onChangeHandler} name="category" value={data.category}>
               <option value="Haircuts">Haircuts</option>
               <option value="Beard Grooming">Beard Grooming</option>
               <option value="Shaving">Shaving</option>

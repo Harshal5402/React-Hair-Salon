@@ -6,7 +6,8 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
   const [appointment, setAppointment] = useState(null);
-  const url = "https://react-hair-salon-backend.onrender.com";
+  // const url = "https://react-hair-salon-backend.onrender.com";
+  const url = "http://localhost:4000";
   const [token, setToken] = useState("");
   const [userData, setUserData] = useState(false);
 
