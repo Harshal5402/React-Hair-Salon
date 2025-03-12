@@ -90,6 +90,7 @@ const FetchAppointment = () => {
               <strong>Time:</strong> {appointment.time}
             </p>
             <p>
+              <strong>Receipt:</strong> 
               {appointment.receiptUrl && (
                 <a
                   href={appointment.receiptUrl}
