@@ -1,17 +1,24 @@
-import React, { useContext, useState, useEffect } from 'react';
-import './Explore.css';
-import axios from 'axios';
-import { StoreContext } from '../../Context/StoreContext';
-import { toast } from 'react-toastify';
+import React, { useContext, useState, useEffect } from "react";
+import "./Explore.css";
+import axios from "axios";
+import { StoreContext } from "../../Context/StoreContext";
+import { toast } from "react-toastify";
 
 const Explore = () => {
-    const { url,  } = useContext(StoreContext);
+    const { url } = useContext(StoreContext);
     const [allServices, setAllServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
+    const [selectedImage, setSelectedImage] = useState(null); 
     const [categories] = useState([
-        "Haircuts", "Beard Grooming", "Shaving", "Hair Styling", 
-        "Hair Coloring", "Hair Treatments", "Facial Grooming", 
-        "Special Packages", "Additional Services"
+        "Haircuts",
+        "Beard Grooming",
+        "Shaving",
+        "Hair Styling",
+        "Hair Coloring",
+        "Hair Treatments",
+        "Facial Grooming",
+        "Special Packages",
+        "Additional Services",
     ]);
     const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -22,16 +29,16 @@ const Explore = () => {
                 setAllServices(response.data.data);
                 setFilteredServices(response.data.data);
             } else {
-                toast.error('Error fetching services');
+                toast.error("Error fetching services");
             }
         } catch (error) {
-            toast.error('Failed to fetch services');
+            toast.error("Failed to fetch services");
         }
     };
 
     const handleSearch = () => {
         if (selectedCategory) {
-            const filtered = allServices.filter(item => item.category === selectedCategory);
+            const filtered = allServices.filter((item) => item.category === selectedCategory);
             setFilteredServices(filtered);
         } else {
             setFilteredServices(allServices);
@@ -39,38 +46,29 @@ const Explore = () => {
     };
 
     const handleAddToCart = async (item) => {
-        // Ensure the user is logged in by checking the token in local storage
-        const token = localStorage.getItem('token'); // Assuming token is stored in local storage
+        const token = localStorage.getItem("token");
         if (!token) {
-            toast.error('Please login to add items to the cart');
+            toast.error("Please login to add items to the cart");
             return;
         }
-    
-        try {
-            // Make the API request to add the service to the cart
-            const response = await axios.post(`${url}/api/cart/add`, 
-                { serviceId: item._id }, // Only send serviceId
-                { headers: { Authorization: `Bearer ${token}` } } // Pass token in headers                
-            );
-            console.log(item._id);
-            console.log(response);
-            
 
-    
-            // Handle the response
+        try {
+            const response = await axios.post(
+                `${url}/api/cart/add`,
+                { serviceId: item._id },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
             if (response.data.success) {
-                toast.success('Service added to cart');
-                // handleAddToCart(item); // Update local cart context if needed
+                toast.success("Service added to cart");
             } else {
-                toast.error(response.data.message || 'Failed to add service to cart');
+                toast.error(response.data.message || "Failed to add service to cart");
             }
         } catch (error) {
             console.error(error);
-            toast.error('Error adding service to cart');
+            toast.error("Error adding service to cart");
         }
     };
-    
-    
 
     useEffect(() => {
         fetchService();
@@ -81,10 +79,7 @@ const Explore = () => {
             <h1>Explore Our Services</h1>
 
             <div className="search-bar">
-                <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                >
+                <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                     <option value="">Select a category</option>
                     {categories.map((category, index) => (
                         <option key={index} value={category}>
@@ -110,7 +105,12 @@ const Explore = () => {
 
                     {filteredServices.map((item, index) => (
                         <div key={index} className="explore-list-table-format">
-                            <img src={`${url}/images/` + item.image} alt={item.name} />
+                            <img
+                                src={`${url}/images/` + item.image}
+                                alt={item.name}
+                                className="service-image"
+                                onClick={() => setSelectedImage(`${url}/images/` + item.image)}
+                            />
                             <p>{item.name}</p>
                             <p>{item.description}</p>
                             <p>{item.category}</p>
@@ -120,6 +120,16 @@ const Explore = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Modal for enlarged image */}
+            {selectedImage && (
+                <div className="image-modal" onClick={() => setSelectedImage(null)}>
+                    <div className="image-modal-content">
+                        <span className="close" onClick={() => setSelectedImage(null)}>&times;</span>
+                        <img src={selectedImage} alt="Enlarged Service" />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
