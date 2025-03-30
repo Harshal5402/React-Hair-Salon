@@ -1,20 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./InstallButton.css"; // ✅ Import CSS
+import { StoreContext } from "../../Context/StoreContext";
 
 const InstallButton = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
+  const { token } = useContext(StoreContext);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event) => {
       event.preventDefault();
       setDeferredPrompt(event);
-
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setShowInstallButton(true);
-      }
-      // setShowInstallButton(true);
+      setShowInstallButton(!token);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -26,6 +23,11 @@ const InstallButton = () => {
       );
     };
   }, []);
+
+  // Token change hone par button ki visibility update karna
+  useEffect(() => {
+    setShowInstallButton(!token); 
+  }, [token]);
 
   const handleInstallClick = () => {
     if (deferredPrompt) {
