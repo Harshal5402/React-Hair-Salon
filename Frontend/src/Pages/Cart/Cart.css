@@ -2,6 +2,7 @@
   max-width: 80%;
   margin: 20px auto;
   padding: 20px;
+  margin-bottom: 180px;
 }
 
 h2 {
@@ -157,6 +158,7 @@ h2 {
     margin: 0;
     padding: 10px;
     max-width: 100%;
+    margin-bottom: 40px;
   }
 
 .cart-list-table-container{

@@ -5,6 +5,7 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   padding: 2% 0 0 4%;
+  margin-bottom: 20px;
 }
 
 .profile-image {
@@ -41,7 +42,7 @@
 .section-title {
   color: #009688;
   text-decoration: underline;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .info-grid {
@@ -89,7 +90,25 @@
 }
 
 .button-container {
-  margin-top: 2.5rem;
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.logout{
+  border: 1px solid #009688;
+  padding: 0.5rem 2rem;
+  border-radius: 9999px;
+  transition: all 0.3s;
+  background-color: transparent;
+  color: #009688;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background-color: #009688;
+  color: white;
 }
 
 .action-button {
@@ -132,6 +151,7 @@
   .profile-container {
     gap: 0.25rem;
     padding: 2% 0 0 10%;
+    margin-bottom: 60px;
   }
 
   .profile-image {

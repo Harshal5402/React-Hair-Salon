@@ -77,6 +77,9 @@
 }
 
 @media screen and (max-width:770px){
+    .footer{
+        margin-bottom: 50px;
+    }
     .footer-left,.footer-right{
         flex-basis: 100%;
         font-size: 14px;

@@ -140,6 +140,7 @@
 @media (max-width: 600px) {
   .explore-container {
     padding: 5px;
+    margin-bottom: 40px;
   }
   .explore-container h1 {
     font-size: 28px;

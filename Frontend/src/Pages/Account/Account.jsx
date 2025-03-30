@@ -4,13 +4,21 @@ import { StoreContext } from "../../Context/StoreContext";
 import { assets } from "../../assets/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Account = () => {
-  const { userData, setUserData, token, url, loadUserProfileData } =
+  const { userData, setUserData, token, setToken, url, loadUserProfileData } =
     useContext(StoreContext);
 
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(false);
+  const navigate = useNavigate()
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    navigate("/");
+  };
 
   const updateUserProfileData = async () => {
     try {
@@ -193,6 +201,7 @@ const Account = () => {
               Edit
             </button>
           )}
+          <button className="logout" onClick={logout}>logout</button>
         </div>
       </div>
     )

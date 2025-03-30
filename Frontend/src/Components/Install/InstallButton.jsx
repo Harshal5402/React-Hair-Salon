@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./InstallButton.css"; // ✅ Import CSS
 
 const InstallButton = () => {
@@ -9,13 +9,21 @@ const InstallButton = () => {
     const handleBeforeInstallPrompt = (event) => {
       event.preventDefault();
       setDeferredPrompt(event);
-      setShowInstallButton(true);
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setShowInstallButton(true);
+      }
+      // setShowInstallButton(true);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
     };
   }, []);
 

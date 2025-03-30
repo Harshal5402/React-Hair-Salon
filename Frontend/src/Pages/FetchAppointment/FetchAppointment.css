@@ -49,3 +49,10 @@
 .remove-appointment:hover {
     color: darkred;
 }
+
+
+@media (max-width: 750px){
+    .fetch-details{
+        margin-bottom: 40px;
+    }
+}

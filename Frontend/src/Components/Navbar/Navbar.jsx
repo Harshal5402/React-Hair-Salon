@@ -124,7 +124,7 @@ const Navbar = ({ setShowLogin }) => {
         </div>
       )}
 
-      {token ? (
+      {/* {token ? (
         <img
           onClick={() => setShowSidebar(true)}
           className="navbar-mobile-menu"
@@ -133,11 +133,11 @@ const Navbar = ({ setShowLogin }) => {
         />
       ) : (
         ""
-      )}
+      )} */}
 
       {/*----- Mobile menu------------*/}
 
-      <div className={`sidebar-menu ${showSidebar ? "show" : ""}`}>
+      {/* <div className={`sidebar-menu ${showSidebar ? "show" : ""}`}>
         <div className="sidebar-menu-logo-cross_icon">
           <img src={assets.logo} alt="Logo" />
           <img
@@ -195,12 +195,44 @@ const Navbar = ({ setShowLogin }) => {
           >
             Contact Us
           </NavLink>
-          
+
           <p className="sidebar-logout" onClick={logout}>
             Logout
           </p>
         </div>
-      </div>
+      </div> */}
+
+      {/* Mobile Bottom Navbar (sirf 750px se chhoti screen pe dikhega) */}
+      {token ? (
+        <div className="bottom-navbar">
+          <NavLink to="/" className={({ isActive }) => (isActive ? "active" : "")}>
+            <i className="fa-solid fa-house"></i>
+            <p>Home</p>
+          </NavLink>
+
+          <NavLink to="Explore" className={({ isActive }) => (isActive ? "active" : "")}>
+            <i className="fa-solid fa-magnifying-glass"></i>
+            <p>Explore</p>
+          </NavLink>
+
+          <NavLink to="Cart" className={({ isActive }) => (isActive ? "active" : "")}>
+            <i className="fa-solid fa-cart-shopping"></i>
+            <p>Cart</p>
+          </NavLink>
+
+          <NavLink to="fetchAppointment" className={({ isActive }) => (isActive ? "active" : "")}>
+            <i className="fa-solid fa-calendar-check"></i>
+            <p>Appointments</p>
+          </NavLink>
+
+          <NavLink to="Account" className={({ isActive }) => (isActive ? "active" : "")}>
+            <i className="fa-solid fa-user"></i>
+            <p>Profile</p>
+          </NavLink>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
