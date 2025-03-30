@@ -5,7 +5,7 @@
   font-size: 0.875rem;
   line-height: 1.25rem;
   padding: 2% 0 0 4%;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .profile-image {
@@ -151,7 +151,7 @@
   .profile-container {
     gap: 0.25rem;
     padding: 2% 0 0 10%;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
   }
 
   .profile-image {
