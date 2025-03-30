@@ -25,7 +25,8 @@
   font-size: 1.875rem;
   font-weight: 500;
   max-width: 15rem;
-  margin-top: 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
   border: none;
   outline: none;
   padding: 0.25rem;
@@ -49,7 +50,7 @@
   display: grid;
   grid-template-columns: 1fr 6fr;
   gap: 0.625rem;
-  margin-top: 0.75rem;
+  margin-top: 0.7rem;
   color: #374151;
 }
 
@@ -78,7 +79,7 @@
   max-width: 13rem;
   border: none;
   outline: none;
-  padding: 0.25rem;
+  padding: 0.2rem;
 }
 
 .edit-select {
@@ -86,11 +87,11 @@
   background-color: #f3f4f6;
   border: none;
   outline: none;
-  padding: 0.25rem;
+  padding: 0.2rem;
 }
 
 .button-container {
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   display: flex;
   gap: 1rem;
 }
