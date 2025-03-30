@@ -1,4 +1,4 @@
-import React, { Profiler, useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ const Navbar = ({ setShowLogin }) => {
   const logout = () => {
     localStorage.removeItem("token");
     setToken("");
+    setShowSidebar(false);
     navigate("/");
   };
 
