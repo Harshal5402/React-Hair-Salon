@@ -20,30 +20,48 @@ const Appointment = () => {
       }
     } catch (error) {
       console.error("Error fetching appointments:", error);
-      toast.error("Failed to fetching appointments");
+      toast.error("Failed to fetch appointments");
       setAppointments([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // Remove Appointment
-  const handleRemoveAppointment = async (appointmentId) => {
+  // Update Appointment Status
+  const handleStatusChange = async (appointmentId, status) => {
     try {
-      const response = await axios.delete(
-        `${url}/api/appoint/adminremoveappointment`,
-        { data: { appointmentId } }
+      const response = await axios.put(
+        `${url}/api/appoint/updateappointmentstatus`,
+        {
+          appointmentId,
+          status,
+        }
       );
 
       if (response.data.success) {
-        toast.success("Appointment removed successfully!");
-        allAppointments();
+        toast.success(`Appointment updated to ${status}!`);
+
+        // State me update karna
+        setAppointments((prevAppointments) =>
+          prevAppointments.map((appt) =>
+            appt._id === appointmentId
+              ? {
+                  ...appt,
+                  status,
+                  refundStatus:
+                    status === "Refunded" ? "Refunded" : appt.refundStatus,
+                  cancelledBy:
+                    status === "Cancelled" ? "Admin" : appt.cancelledBy,
+                }
+              : appt
+          )
+        );
       } else {
-        toast.error("Failed to remove appointment");
+        toast.error("Failed to update appointment status");
       }
     } catch (error) {
-      toast.error("Error removing appointment");
-      toast.error(error.message);
+      toast.error("Error updating appointment status");
+      console.error(error);
     }
   };
 
@@ -75,9 +93,60 @@ const Appointment = () => {
             <p>
               <strong>Time:</strong> {appointment.time}
             </p>
+
             <p>
-              <strong>Receipt:</strong>
-              {appointment.receiptUrl && (
+              <strong>Status:</strong> {appointment.status}
+              {appointment.cancelledBy && (
+                <span style={{ color: "red", marginLeft: "10px" }}>
+                  (Cancelled by: {appointment.cancelledBy})
+                </span>
+              )}
+            </p>
+
+            {/* Refund Status Dikhane Ka Code */}
+            {appointment.refundStatus && (
+              <p>
+                <strong>Refund Status:</strong>
+                <span
+                  style={{
+                    color:
+                      appointment.refundStatus === "Refunded" ? "green" : "red",
+                    marginLeft: "5px",
+                  }}
+                >
+                  {appointment.refundStatus}
+                </span>
+              </p>
+            )}
+
+            {/* Status Change Dropdown */}
+            {appointment.refundStatus !== "Refunded" && (
+              <p>
+                <strong>Change Status:</strong>
+                <select
+                  value={appointment.status}
+                  onChange={(e) =>
+                    handleStatusChange(appointment._id, e.target.value)
+                  }
+                  style={{ marginLeft: "10px" }}
+                >
+                  {appointment.status === "Refunded" ? null : (
+                    <>
+                      <option value="Pending">Pending</option>
+                      <option value="Approved">Approved</option>
+                      <option value="Cancelled">Cancelled</option>
+                      {appointment.status === "Cancelled" && (
+                        <option value="Refunded">Refunded</option>
+                      )}
+                    </>
+                  )}
+                </select>
+              </p>
+            )}
+
+            {appointment.receiptUrl && (
+              <p>
+                <strong>Receipt:</strong>
                 <a
                   href={appointment.receiptUrl}
                   target="_blank"
@@ -85,14 +154,8 @@ const Appointment = () => {
                 >
                   View Payment Receipt
                 </a>
-              )}
-            </p>
-            <span
-              className="remove-appointment"
-              onClick={() => handleRemoveAppointment(appointment._id)}
-            >
-              x
-            </span>
+              </p>
+            )}
           </div>
         ))
       ) : (

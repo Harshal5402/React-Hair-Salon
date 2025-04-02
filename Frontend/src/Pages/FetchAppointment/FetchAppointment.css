@@ -1,4 +1,4 @@
-.fetch-details {
+/* .fetch-details {
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 8px;
@@ -22,7 +22,6 @@
 
 .fetch-info:hover {
     animation: fadeIn;
-    /* transform: scale(1.02); */
     transform: translateY(-3px);
 }
 
@@ -55,4 +54,198 @@
     .fetch-details{
         margin-bottom: 40px;
     }
+}
+ */
+
+
+/*******************************************/
+/* 
+.fetch-details {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fetch-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+    border: 1px solid #cacaca;
+    padding: 12px 15px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.fetch-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.fetch-info {
+    flex-grow: 1;
+}
+
+.fetch-info p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.fetch-info strong {
+    color: #333;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.remove-appointment {
+    color: red;
+    font-size: large;
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid red;
+    border-radius: 5px;
+    background: #ffe6e6;
+    transition: 0.3s ease;
+}
+
+.remove-appointment:hover {
+    background: red;
+    color: white;
+}
+
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.status.pending {
+    color: #ff9800;
+    background: #fff3cd;
+}
+
+.status.approved {
+    color: #28a745;
+    background: #d4edda;
+}
+
+.status.cancelled {
+    color: #dc3545;
+    background: #f8d7da;
+}
+
+.refund-text {
+    color: darkred;
+    font-weight: bold;
+} */
+
+
+
+/**************************************************/
+
+.fetch-details {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fetch-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+    border: 1px solid #cacaca;
+    padding: 12px 15px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.fetch-container:hover {
+    animation: fadeIn;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.fetch-info {
+    flex-grow: 1;
+}
+
+.fetch-info p {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.fetch-info strong {
+    color: #333;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.remove-appointment {
+    color: red;
+    font-size: large;
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid red;
+    border-radius: 5px;
+    background: #ffe6e6;
+    transition: 0.3s ease;
+}
+
+.remove-appointment:hover {
+    background: red;
+    color: white;
+}
+
+.remove-appointment.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background: #f5f5f5;
+    color: #aaa;
+    border-color: #ddd;
+}
+
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.status.pending {
+    color: #ff9800;
+    background: #fff3cd;
+}
+
+.status.approved {
+    color: #28a745;
+    background: #d4edda;
+}
+
+.status.cancelled {
+    color: #dc3545;
+    background: #f8d7da;
+}
+
+.refund-text {
+    color: darkred;
+    font-weight: bold;
 }

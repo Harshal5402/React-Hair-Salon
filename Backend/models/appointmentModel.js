@@ -6,49 +6,57 @@ const appointmentSchema = new mongoose.Schema({
     ref: "User", // Assuming you have a User model
     required: true,
   },
-  name:{
+  name: {
     type: String,
     required: true,
   },
-  surname:{
+  surname: {
     type: String,
     required: true,
   },
-  email:{
+  email: {
     type: String,
     required: true,
   },
-  mobile:{
+  mobile: {
     type: String,
     required: true,
   },
-  address:{
+  address: {
     type: String,
     required: true,
   },
-  date:{
+  date: {
     type: String, // Change date to string
     required: true,
     set: (val) => {
-      // Ensure val is a valid Date object
       const date = new Date(val);
-      // return date.toISOString().split("T")[0]; // Store only "YYYY-MM-DD"
-      return date.toLocaleDateString('en-GB'); // English format (DD/MM/YYYY)
+      return date.toLocaleDateString("en-GB"); // English format (DD/MM/YYYY)
     },
   },
-  time:{
+  time: {
     type: String,
     required: true,
   },
-  isPaid:{
+  isPaid: {
     type: Boolean,
     default: false,
   },
-  receiptUrl:{
-    type: String
-  }
+  receiptUrl: {
+    type: String,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "approved", "cancelled"],
+    default: "pending",
+  },
+  refundStatus: {
+    type: String,
+    enum: ["no refund", "refunded"],
+    default: "no refund",
+  },
 });
 
-const Appointment = mongoose.model('Appointment', appointmentSchema);
+const Appointment = mongoose.model("Appointment", appointmentSchema);
 
 export default Appointment;

@@ -7,6 +7,7 @@ import axios from "axios";
 const FetchAppointment = () => {
   const { url, token } = useContext(StoreContext);
   const [appointments, setAppointments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch appointment details
   const fetchAppointment = async () => {
@@ -15,14 +16,13 @@ const FetchAppointment = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const response = await axios.get(`${url}/api/appoint/fetchappointment`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log("Fetched Appointment Data:", response.data); // Debugging ke liye
 
       if (response.data.success) {
         setAppointments(response.data.data);
@@ -33,14 +33,26 @@ const FetchAppointment = () => {
     } catch (error) {
       toast.error("Failed to fetch appointment");
       setAppointments([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Remove Appointment
-  const handleRemoveAppointment = async () => {
+  const handleRemoveAppointment = async (appointment) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to cancel this appointment?"
+    );
+    if (!confirmDelete) return;
+
     try {
-      const response = await axios.delete(
-        `${url}/api/appoint/appointmentRemove`,
+      const response = await axios.put(
+        `${url}/api/appoint/updateappointmentstatus`,
+        {
+          appointmentId: appointment._id,
+          status: "Cancelled",
+          cancelledBy: "User",
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -49,15 +61,18 @@ const FetchAppointment = () => {
       );
 
       if (response.data.success) {
-        toast.success("Appointment removed successfully!");
+        toast.success(
+          "Appointment cancelled successfully! Refund will be initiated."
+        );
         fetchAppointment();
       } else {
-        toast.error("Failed to remove appointment");
+        toast.error("Failed to cancel appointment");
       }
     } catch (error) {
-      toast.error("Error removing appointment");
+      toast.error("Error cancelling appointment");
     }
   };
+
 
   useEffect(() => {
     if (token) {
@@ -68,45 +83,68 @@ const FetchAppointment = () => {
   return (
     <div className="fetch-details">
       <h2>All Appointments</h2>
-      {appointments.length > 0 ? (
+      {isLoading ? (
+        <p>Loading appointments...</p>
+      ) : appointments.length > 0 ? (
         appointments.map((appointment) => (
-          <div key={appointment._id} className="fetch-info">
-            <p>
-              <strong>Name:</strong> {appointment.name} {appointment.surname}
-            </p>
-            <p>
-              <strong>Email:</strong> {appointment.email}
-            </p>
-            <p>
-              <strong>Mobile:</strong> {appointment.mobile}
-            </p>
-            <p>
-              <strong>Address:</strong> {appointment.address}
-            </p>
-            <p>
-              <strong>Date:</strong> {appointment.date}
-            </p>
-            <p>
-              <strong>Time:</strong> {appointment.time}
-            </p>
-            <p>
-              <strong>Receipt:</strong> 
-              {appointment.receiptUrl && (
-                <a
-                  href={appointment.receiptUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View Payment Receipt
-                </a>
+          <div className="fetch-container" key={appointment._id}>
+            <div className="fetch-info">
+              <p>
+                <strong>Name:</strong> {appointment.name} {appointment.surname}
+              </p>
+              <p>
+                <strong>Email:</strong> {appointment.email}
+              </p>
+              <p>
+                <strong>Mobile:</strong> {appointment.mobile}
+              </p>
+              <p>
+                <strong>Address:</strong> {appointment.address}
+              </p>
+              <p>
+                <strong>Date:</strong> {appointment.date}
+              </p>
+              <p>
+                <strong>Time:</strong> {appointment.time}
+              </p>
+              <p>
+                <strong>Status:</strong>
+                <span className={`status ${appointment.status.toLowerCase()}`}>
+                  {appointment.status}
+                </span>
+                {appointment.status === "Cancelled" &&
+                  appointment.cancelledBy && (
+                    <span style={{ color: "red", marginLeft: "10px" }}>
+                      (Cancelled by: {appointment.cancelledBy})
+                    </span>
+                  )}
+              </p>
+              {appointment.status === "Cancelled" && (
+                <p className="refund-text">Refund Initiated</p>
               )}
-            </p>
-            <span
-              className="remove-appointment"
-              onClick={handleRemoveAppointment}
-            >
-              x
-            </span>
+              {appointment.receiptUrl && (
+                <p>
+                  <strong>Receipt:</strong>
+                  <a
+                    href={appointment.receiptUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Payment Receipt
+                  </a>
+                </p>
+              )}
+            </div>
+            <div className="actions">
+              {appointment.status !== "Cancelled" && appointment.status !== "Refunded" && (
+                <button
+                  className="cancel-appointment"
+                  onClick={() => handleRemoveAppointment(appointment)}
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
           </div>
         ))
       ) : (
