@@ -85,66 +85,40 @@ const Navbar = ({ setShowLogin }) => {
         </ul>
       </div>
 
-      <img
-        onClick={() => setShowSidebar(true)}
-        className="navbar-mobile-menu"
-        src={assets.menu_icon}
-        alt="Menu"
-      />
 
-      {/*----- Mobile menu------------*/}
+      {/* Mobile Bottom Navbar (sirf 750px se chhoti screen pe dikhega) */}
+      <div className="bottom-navbar">
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <i className="fa-solid fa-house"></i>
+          <p>Home</p>
+        </NavLink>
 
-      <div className={`sidebar-menu ${showSidebar ? "show" : ""}`}>
-        <div className="sidebar-menu-logo-cross_icon">
-          <img src={assets.logo} alt="Logo" />
-          <img
-            onClick={() => setShowSidebar(false)}
-            src={assets.cross_icon}
-            alt="Close"
-          />
-        </div>
+        <NavLink
+          to="Add"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <i class="fa-solid fa-upload"></i>
+          <p>Add Items</p>
+        </NavLink>
 
-        <div className="sidebar-menu-content">
-          <NavLink
-            to="/"
-            onClick={() => setShowSidebar(false)}
-            className={menu === "Home" ? "active" : ""}
-          >
-            Home
-          </NavLink>
+        <NavLink
+          to="List"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <i class="fa-solid fa-list-check"></i>
+          <p>List Items</p>
+        </NavLink>
 
-          <NavLink
-            to="Add"
-            onClick={() => setShowSidebar(false)}
-            className={menu === "Add" ? "active" : ""}
-          >
-            Add Items
-          </NavLink>
-
-          <NavLink
-            to="List"
-            onClick={() => setShowSidebar(false)}
-            className={menu === "List" ? "active" : ""}
-          >
-            List Items
-          </NavLink>
-
-          <NavLink
-            to="Appointments"
-            onClick={() => setShowSidebar(false)}
-            className={menu === "Appointments" ? "active" : ""}
-          >
-            Appointments
-          </NavLink>
-
-          <NavLink
-            to="#footer"
-            onClick={() => setShowSidebar(false)}
-            className={menu === "Contact-Us" ? "active" : ""}
-          >
-            Contact Us
-          </NavLink>
-        </div>
+        <NavLink
+          to="Appointments"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <i className="fa-solid fa-calendar-check"></i>
+          <p>Appointments</p>
+        </NavLink>
       </div>
     </div>
   );

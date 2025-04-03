@@ -68,6 +68,9 @@
 }
 
 @media (max-width: 600px) {
+  .list-add{
+    margin-bottom: 40px;
+  }
   .list-add h1 {
     font-size: 28px;
   }
