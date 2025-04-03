@@ -50,6 +50,10 @@ button[type="submit"] {
 }
 
 @media screen and (max-width: 600px) {
+  .appointment{
+    margin-bottom: 60px;
+  }
+
   form {
     padding: 10px;
     max-width: 90%;
