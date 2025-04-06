@@ -29,7 +29,9 @@ const Add = () => {
     formData.append("price", Number(data.price));
     formData.append("category", data.category);
     formData.append("image", image);
+
     const response = await axios.post(`${url}/api/service/add`, formData);
+
     if (response.data.success) {
       setData({
         name: "",
@@ -43,7 +45,6 @@ const Add = () => {
       toast.error(response.data.message);
     }
   };
-
 
   return (
     <div className="add">
@@ -88,7 +89,11 @@ const Add = () => {
         <div className="add-category-price">
           <div className="add-category flex-col">
             <p>Service Category</p>
-            <select onChange={onChangeHandler} name="category" value={data.category}>
+            <select
+              onChange={onChangeHandler}
+              name="category"
+              value={data.category}
+            >
               <option value="Haircuts">Haircuts</option>
               <option value="Beard Grooming">Beard Grooming</option>
               <option value="Shaving">Shaving</option>
@@ -107,7 +112,7 @@ const Add = () => {
               value={data.price}
               type="Number"
               name="price"
-              placeholder="&#8377; 20"
+              placeholder="₹ 20"
             />
           </div>
         </div>

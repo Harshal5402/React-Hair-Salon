@@ -54,6 +54,9 @@ const appointmentBook = async (req, res) => {
     });
     await appointment.save();
 
+    // Emit real-time event to admin (socket.io)
+    req.app.get("io").emit("new_appointment", appointment);
+
     res.json({
       success: true,
       message: "Appointment booked successfully",
@@ -120,6 +123,9 @@ const appointmentRemove = async (req, res) => {
 
     await appointment.save();
 
+    // Emit cancel event to admin
+    req.app.get("io").emit("cancel_appointment", appointment);
+
     res.json({
       success: true,
       message: "Appointment cancelled successfully and refund initiated!",
@@ -156,7 +162,7 @@ const updateAppointmentStatus = async (req, res) => {
     if (status === "Refunded") {
       updateData.refundStatus = "Refunded";
     } else if (status === "Cancelled") {
-      updateData.refundStatus = "Refund Initiated"; // Refund process dikhane ke liye
+      updateData.refundStatus = "Refund Initiated";
       updateData.cancelledBy = "Admin";
     }
 
@@ -171,6 +177,9 @@ const updateAppointmentStatus = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Appointment not found" });
     }
+
+     // Emit status update to user side
+     req.app.get("io").emit("appointment_status_updated", appointment);
 
     res.json({
       success: true,

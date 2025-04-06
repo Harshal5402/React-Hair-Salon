@@ -4,6 +4,8 @@ import { StoreContext } from "../../Context/StoreContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 
+import { io } from "socket.io-client";
+
 const Appointment = () => {
   const { url } = useContext(StoreContext);
   const [appointments, setAppointments] = useState([]);
@@ -67,6 +69,36 @@ const Appointment = () => {
 
   useEffect(() => {
     allAppointments();
+
+    // ✅ Setup socket
+    const socket = io(url);
+
+    socket.on("new_appointment", (data) => {
+      toast.info("New appointment received");
+      setAppointments((prev) => [data, ...prev]);
+    });
+
+    socket.on("cancel_appointment", (data) => {
+      toast.warn("Appointment cancelled by user");
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt._id === data._id ? { ...appt, ...data } : appt
+        )
+      );
+    });
+
+    socket.on("appointment_status_updated", (appointment) => {
+      toast.info(`🔄 Appointment updated to ${appointment.status}`);
+      setAppointments((prev) =>
+        prev.map((appt) =>
+          appt._id === appointment._id ? { ...appt, ...appointment } : appt
+        )
+      );
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
@@ -128,16 +160,18 @@ const Appointment = () => {
                   onChange={(e) =>
                     handleStatusChange(appointment._id, e.target.value)
                   }
-                  style={{ marginLeft: "10px" }}
+                  style={{ marginLeft: "10px", padding: "2px" }}
                 >
-                  {appointment.status === "Refunded" ? null : (
+                  {appointment.status === "Cancelled" ? (
+                    <>
+                      <option value="">-- Select Action --</option>
+                      <option value="Refunded">Refunded</option>
+                    </>
+                  ) : appointment.status === "Refunded" ? null : (
                     <>
                       <option value="Pending">Pending</option>
                       <option value="Approved">Approved</option>
                       <option value="Cancelled">Cancelled</option>
-                      {appointment.status === "Cancelled" && (
-                        <option value="Refunded">Refunded</option>
-                      )}
                     </>
                   )}
                 </select>

@@ -100,7 +100,7 @@ const Navbar = ({ setShowLogin }) => {
           to="Add"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
-          <i class="fa-solid fa-upload"></i>
+          <i className="fa-solid fa-upload"></i>
           <p>Add Items</p>
         </NavLink>
 
@@ -108,7 +108,7 @@ const Navbar = ({ setShowLogin }) => {
           to="List"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
-          <i class="fa-solid fa-list-check"></i>
+          <i className="fa-solid fa-list-check"></i>
           <p>List Items</p>
         </NavLink>
 

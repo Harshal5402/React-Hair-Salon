@@ -4,6 +4,9 @@ import { StoreContext } from "../../Context/StoreContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 
+import { jwtDecode } from "jwt-decode";
+import { io } from "socket.io-client";
+
 const FetchAppointment = () => {
   const { url, token } = useContext(StoreContext);
   const [appointments, setAppointments] = useState([]);
@@ -73,11 +76,38 @@ const FetchAppointment = () => {
     }
   };
 
-
   useEffect(() => {
     if (token) {
       fetchAppointment();
     }
+
+    // Setup socket
+    const socket = io(url);
+
+    let userId = "";
+    if (token) {
+      try {
+        const decode = jwtDecode(token);
+        userId = decode.id || decode._id;
+      } catch (error) {
+        console.error("Failed to decode token: ", error);
+      }
+    }
+
+    socket.on("appointment_status_updated", (data) => {
+      if (data.userId === userId) {
+        toast.info(`📢 Appointment ${data.status}`);
+        setAppointments((prev) =>
+          prev.map((appointment) =>
+            appointment._id === data._id ? { ...appointment, ...data } : appointment
+          )
+        );
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [token]);
 
   return (
@@ -136,14 +166,15 @@ const FetchAppointment = () => {
               )}
             </div>
             <div className="actions">
-              {appointment.status !== "Cancelled" && appointment.status !== "Refunded" && (
-                <button
-                  className="cancel-appointment"
-                  onClick={() => handleRemoveAppointment(appointment)}
-                >
-                  Cancel
-                </button>
-              )}
+              {appointment.status !== "Cancelled" &&
+                appointment.status !== "Refunded" && (
+                  <button
+                    className="cancel-appointment"
+                    onClick={() => handleRemoveAppointment(appointment)}
+                  >
+                    Cancel
+                  </button>
+                )}
             </div>
           </div>
         ))

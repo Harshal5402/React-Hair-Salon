@@ -9,10 +9,33 @@ import cartRouter from "./routes/cartRoute.js";
 import paymentRouter from "./routes/paymentRoute.js";
 import accountRouter from "./routes/accountRoute.js";
 
+import http from "http";
+import { Server } from "socket.io";
+
 // app config
 const app = express();
 const port = process.env.PORT || 4000;
-// const port = 4000;
+
+// ADDED FOR SOCKET.IO - create HTTP server
+const server = http.createServer(app);
+
+// ADDED FOR SOCKET.IO - create io instance
+const io = new Server(server, {
+  cors: {
+    // origin: "*",
+    origin: [process.env.USER_WEBSITE_URL, process.env.ADMIN_WEBSITE_URL],
+    methods: ["GET", "POST", "PUT", "DELETE"]
+  }
+});
+
+
+// ADDED FOR SOCKET.IO - socket connection
+io.on("connection", (socket) => {
+  console.log("New client connected:", socket.id);
+});
+
+// ADDED FOR SOCKET.IO - make io available across app
+app.set("io", io);
 
 // middleware
 app.use(express.json());
@@ -29,14 +52,12 @@ app.use("/api/appoint", appointmentRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/checkout", paymentRouter);
 app.use("/api/account", accountRouter);
-// app.use("/api/payment", paymentRouter);
 
 app.get("/", (req, res) => {
   res.send("API Working");
 });
 
-app.listen(port, () => {
+// CHANGED: app.listen -> server.listen for socket.io to work
+server.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
 });
-
-// mongodb+srv://FoodDelivery:Food_Delivery@cluster0.r2h57.mongodb.net/?
